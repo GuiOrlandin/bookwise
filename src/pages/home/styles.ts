@@ -29,3 +29,26 @@ export const RecentlyReviewedBooks = styled("div", {
     fontSize: "0.875rem",
   },
 });
+
+export const PopularBook = styled("div", {
+  fontSize: "0.875rem",
+  marginRight: "6rem",
+  marginTop: "9.125rem",
+
+  p: {
+    color: "#F8F9FC",
+  },
+
+  span: {
+    display: "flex",
+    alignItems: "center",
+    color: "#8381D9",
+    gap: "0.5rem",
+  },
+});
+
+export const PopularBookAndSeeAllBooks = styled("div", {
+  display: "flex",
+  justifyContent: "space-between",
+  marginBottom: "1rem",
+});

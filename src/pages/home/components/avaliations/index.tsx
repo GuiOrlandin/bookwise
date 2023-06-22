@@ -5,14 +5,13 @@ import {
   BookDescriptionContainer,
   NameAndAuthorBook,
   NameAndDate,
-  Stars,
   UserInfo,
 } from "./styles";
 import Image from "next/image";
 
 import avatarImg from "../../../../assets/avatarimg.svg";
 import hobit from "../../../../assets/o-hobbit.png";
-import { Star } from "phosphor-react";
+import { StarsAvaliations } from "../StarsAvaliations";
 
 export function Avaliations() {
   return (
@@ -25,13 +24,7 @@ export function Avaliations() {
             <p>Hoje</p>
           </NameAndDate>
         </UserInfo>
-        <Stars>
-          <Star />
-          <Star />
-          <Star />
-          <Star />
-          <Star />
-        </Stars>
+        <StarsAvaliations />
       </AvatarAndStars>
       <BookDescriptionContainer>
         <Image src={hobit} width={108} height={152} alt=""></Image>

@@ -36,10 +36,6 @@ export const NameAndDate = styled("div", {
   marginLeft: "1rem",
 });
 
-export const Stars = styled("div", {
-  marginLeft: "1rem",
-});
-
 export const BookDescriptionContainer = styled("div", {
   display: "flex",
   marginTop: "2rem",
