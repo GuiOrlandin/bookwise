@@ -18,7 +18,7 @@ interface Props {
 export default function Home({ UserAuthenticated = false }: Props) {
   return (
     <HomeContainer>
-      <Sidebar UserAuthenticated={UserAuthenticated} />;
+      <Sidebar UserAuthenticated={UserAuthenticated} pageSelected="home" />;
       <div>
         <HomeIndicator>
           <ChartLineUp size={32} color="#50B2C0" />

@@ -5,7 +5,7 @@ export const SidebarContainer = styled("div", {
   flexDirection: "column",
   alignItems: "center",
   padding: "2.5rem 3.25rem 0 2.5rem",
-  margin: "1.25rem  1.25rem 0 1.25rem",
+  margin: "1.25rem  1.25rem",
   borderRadius: "8px",
   with: "14.5rem",
   height: "62.4rem",

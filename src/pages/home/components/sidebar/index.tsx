@@ -14,10 +14,11 @@ import bookWise from "../../../../assets/bookwise-logo.svg";
 
 interface Props {
   UserAuthenticated?: boolean;
+  pageSelected: string;
 }
 
-export function Sidebar({ UserAuthenticated = false }: Props) {
-  const [componentClicked, setComponentClicked] = useState("home");
+export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
+  const [componentClicked, setComponentClicked] = useState(pageSelected);
   const router = useRouter();
 
   function HandleClick(component: string) {

@@ -6,7 +6,7 @@ export const BookCardContainer = styled("div", {
   borderRadius: "8px",
   width: "19.25rem",
   background: "#181C2A",
-  marginTop: "0.75rem",
+  margin: "0.75rem",
 });
 
 export const NameAndAuthor = styled("div", {
