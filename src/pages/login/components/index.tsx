@@ -20,12 +20,12 @@ export function LoginAuthenticate({
         <p>Entrar com Google</p>
       </AuthContainer>
       <AuthContainer>
-        <Image src={githubIcon} quality={100} alt="icone do google"></Image>
+        <Image src={githubIcon} quality={100} alt="icone do github"></Image>
         <p>Entrar com Github</p>
       </AuthContainer>
       {visitorButtonEnabled && (
         <VisitorContainer onClick={onLogin}>
-          <Image src={rocketIcon} quality={100} alt="icone do google"></Image>
+          <Image src={rocketIcon} quality={100} alt=""></Image>
           <p>Acessar como visitante</p>
         </VisitorContainer>
       )}

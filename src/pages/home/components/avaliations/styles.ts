@@ -10,6 +10,15 @@ export const AvaliationsContainer = styled("div", {
   borderRadius: "8px",
 });
 
+export const AvaliationsContainerWithoutBookContent = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  marginTop: "1rem",
+  background: "#181C2A",
+  padding: "1.5rem",
+  borderRadius: "8px",
+});
+
 export const AvatarAndStars = styled("div", {
   display: "flex",
   justifyContent: "space-between",
@@ -20,7 +29,9 @@ export const AvatarAndStars = styled("div", {
   },
 
   h2: {
+    color: "#F8F9FC",
     fontSize: "1rem",
+    fontWeight: "400",
   },
 });
 
@@ -36,12 +47,12 @@ export const NameAndDate = styled("div", {
   marginLeft: "1rem",
 });
 
-export const BookDescriptionContainer = styled("div", {
+export const BookAvaliationContainer = styled("div", {
   display: "flex",
-  marginTop: "2rem",
+  marginTop: "1.25rem",
 });
 
-export const NameAndAuthorBook = styled("div", {
+export const AvaliationContent = styled("div", {
   marginLeft: "1.25rem",
 
   h2: {
@@ -54,11 +65,41 @@ export const NameAndAuthorBook = styled("div", {
   },
 });
 
-export const BookDescription = styled("p", {
+export const BookAvaliationText = styled("p", {
   fontWeight: "700",
   color: "#D1D6E4",
 
   marginTop: "1.25rem",
+
+  span: {
+    color: "#8381D9",
+
+    "&:hover": {
+      cursor: "pointer",
+      color: "#2A2879",
+    },
+  },
+});
+
+export const AvatarAndStarsWithoutBookContent = styled("div", {
+  display: "flex",
+  justifyContent: "space-between",
+
+  p: {
+    lineHeight: "1.4rem",
+    color: "#8D95AF",
+  },
+
+  h2: {
+    color: "#F8F9FC",
+    fontSize: "1rem",
+    fontWeight: "700",
+  },
+});
+
+export const AvaliationContentWithoutBookContent = styled("div", {
+  fontWeight: "400",
+  color: "#D1D6E4",
 
   span: {
     color: "#8381D9",

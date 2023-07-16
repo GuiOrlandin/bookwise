@@ -26,9 +26,9 @@ export default function Home({ UserAuthenticated = false }: Props) {
         </HomeIndicator>
         <RecentlyReviewedBooks>
           <p>Avaliações mais recentes</p>
-          <Avaliations />
-          <Avaliations />
-          <Avaliations />
+          <Avaliations AvaliatioWithoutBookContent={false} />
+          <Avaliations AvaliatioWithoutBookContent={false} />
+          <Avaliations AvaliatioWithoutBookContent={false} />
         </RecentlyReviewedBooks>
       </div>
       <PopularBook>
