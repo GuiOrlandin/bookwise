@@ -6,7 +6,7 @@ import { LoginContainer, AuthContainer, VisitorContainer } from "./styles";
 
 interface Props {
   visitorButtonEnabled?: boolean;
-  onLogin: () => void;
+  onLogin?: () => void;
 }
 
 export function LoginAuthenticate({

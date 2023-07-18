@@ -1,9 +1,13 @@
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
 
+import avatarImg from "../../../../assets/avatarimg.svg";
 import georgeOrwell from "../../../../assets/Book.png";
 import {
   AvaliationButtonContainer,
+  AvaliationCommentContainer,
+  AvaliationText,
+  AvaliationTextButtons,
   AvaliationsContainer,
   BookCardContainer,
   BookDescriptionsAndAvaliations,
@@ -12,23 +16,37 @@ import {
   CardContent,
   CategoryDescriptionContainer,
   CategoryDescriptionContent,
+  CloseAvaliationTextButton,
+  CloseButtonOfAuthenticate,
   Content,
+  ContentOfAuthenticate,
   NameAndAuthor,
   NameAndAuthorModal,
   Overlay,
   PagesDescriptionContainer,
   PagesDescriptionContent,
   Portal,
+  SendAvaliationTextButton,
   StarsAndAvaliations,
+  StarsAvaliationAndUserInfo,
+  TitleOfAuthenticate,
+  Trigger,
+  UserAvaliationContainer,
+  UserInfo,
 } from "./styles";
 import { StarsAvaliations } from "../StarsAvaliations";
 import { Avaliations } from "../avaliations";
-import { BookOpen, BookmarkSimple } from "phosphor-react";
+import { BookOpen, BookmarkSimple, Check, X } from "phosphor-react";
+import { LoginAuthenticate } from "@/pages/login/components";
 
-export function BookCard() {
+interface Props {
+  userAuthenticate?: boolean;
+}
+
+export function BookCard({ userAuthenticate = true }: Props) {
   return (
     <Dialog.Root>
-      <Dialog.Trigger asChild>
+      <Trigger asChild>
         <BookCardContainer>
           <Image src={georgeOrwell} width={64} height={94} alt="" />
           <div>
@@ -40,7 +58,7 @@ export function BookCard() {
             </NameAndAuthor>
           </div>
         </BookCardContainer>
-      </Dialog.Trigger>
+      </Trigger>
       <Portal>
         <Overlay />
         <Content>
@@ -76,17 +94,56 @@ export function BookCard() {
             </BookInformations>
           </CardContainer>
           <AvaliationsContainer>
-            <AvaliationButtonContainer>
-              <p>Avaliações</p>
-              <button>Avaliar</button>
-            </AvaliationButtonContainer>
+            {userAuthenticate ? (
+              <UserAvaliationContainer>
+                <p>Avaliações</p>
+                <AvaliationCommentContainer>
+                  <StarsAvaliationAndUserInfo>
+                    <UserInfo>
+                      <Image src={avatarImg} alt=""></Image>
+                      <h2>Jaxson Dias</h2>
+                    </UserInfo>
+                    <StarsAvaliations />
+                  </StarsAvaliationAndUserInfo>
+                  <AvaliationText placeholder="Escreva sua avaliação" />
+                  <AvaliationTextButtons>
+                    <CloseAvaliationTextButton>
+                      <X size={24} />
+                    </CloseAvaliationTextButton>
+                    <SendAvaliationTextButton type="submit">
+                      <Check size={24} />
+                    </SendAvaliationTextButton>
+                  </AvaliationTextButtons>
+                </AvaliationCommentContainer>
+              </UserAvaliationContainer>
+            ) : (
+              <Dialog.Root>
+                <AvaliationButtonContainer>
+                  <p>Avaliações</p>
+                  <Trigger asChild>
+                    <button>Avaliar</button>
+                  </Trigger>
+                </AvaliationButtonContainer>
+                <Dialog.Portal>
+                  <Overlay />
+                  <ContentOfAuthenticate>
+                    <CloseButtonOfAuthenticate>
+                      <X size={24} />
+                    </CloseButtonOfAuthenticate>
+                    <TitleOfAuthenticate>
+                      Faça login para deixar sua avaliação
+                    </TitleOfAuthenticate>
+                    <LoginAuthenticate visitorButtonEnabled={false} />
+                    <Dialog.Description />
+                  </ContentOfAuthenticate>
+                </Dialog.Portal>
+              </Dialog.Root>
+            )}
             <Avaliations AvaliatioWithoutBookContent={true} />
             <Avaliations AvaliatioWithoutBookContent={true} />
             <Avaliations AvaliatioWithoutBookContent={true} />
             <Avaliations AvaliatioWithoutBookContent={true} />
           </AvaliationsContainer>
-          <Dialog.Title />
-          <Dialog.Description />
           <Dialog.Close />
         </Content>
       </Portal>
