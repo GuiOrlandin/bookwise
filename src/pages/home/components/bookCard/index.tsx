@@ -29,6 +29,7 @@ import {
   SendAvaliationTextButton,
   StarsAndAvaliations,
   StarsAvaliationAndUserInfo,
+  TextAreaDiv,
   TitleOfAuthenticate,
   Trigger,
   UserAvaliationContainer,
@@ -105,7 +106,10 @@ export function BookCard({ userAuthenticate = true }: Props) {
                     </UserInfo>
                     <StarsAvaliations />
                   </StarsAvaliationAndUserInfo>
-                  <AvaliationText placeholder="Escreva sua avaliação" />
+                  <TextAreaDiv>
+                    <AvaliationText placeholder="Escreva sua avaliação" />
+                    <span>0/450</span>
+                  </TextAreaDiv>
                   <AvaliationTextButtons>
                     <CloseAvaliationTextButton>
                       <X size={24} />

@@ -58,6 +58,7 @@ export const ExplorerButton = styled(HomeButton, {
 
 export const ProfileButton = styled(HomeButton, {
   marginTop: "1.6rem",
+
   variants: {
     IsClicked: {
       true: {
@@ -70,13 +71,52 @@ export const ProfileButton = styled(HomeButton, {
   },
 });
 
-export const LoginButton = styled("button", {
+export const AvatarandUserName = styled("div", {
   display: "flex",
   alignItems: "center",
   gap: "0.75rem",
-  marginTop: "45.2rem",
+  padding: 0,
+  marginTop: "42rem",
+  marginLeft: "0.5rem",
+  fontSize: "0.875rem",
+  color: "#E6E8F2",
+
+  img: {
+    height: "2rem",
+    width: "2rem",
+  },
+
+  svg: {
+    color: "#F75A68",
+  },
+});
+
+export const LoginButton = styled("button", {
+  display: "flex",
+  position: "absolute",
+  alignItems: "center",
+  gap: "0.75rem",
+  marginTop: "57rem",
   marginLeft: "1rem",
   background: "none",
   border: "none",
   color: "#F8F9FC",
+
+  p: {
+    borderBottom: "1px solid transparent",
+
+    "&:hover": {
+      cursor: "pointer",
+      borderBottom: "1px solid white",
+    },
+  },
+});
+
+export const LogoutButton = styled("button", {
+  background: "none",
+  border: "none",
+
+  "&:hover": {
+    cursor: "pointer",
+  },
 });

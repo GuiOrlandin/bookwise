@@ -52,3 +52,37 @@ export const PopularBookAndSeeAllBooks = styled("div", {
   justifyContent: "space-between",
   marginBottom: "1rem",
 });
+
+export const LastReadingsContainer = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  color: "#F8F9FC",
+  fontSize: "0.875rem",
+  marginLeft: "4.5rem",
+  marginTop: "2.5rem",
+});
+
+export const LastReadingsTextAndSeAllButtonContainer = styled("div", {
+  display: "flex",
+  justifyContent: "space-between",
+  color: "#F8F9FC",
+  fontSize: "0.875rem",
+  marginRight: "4rem",
+
+  button: {
+    display: "flex",
+    alignItems: "center",
+    background: "none",
+    border: "none",
+    color: "#8381D9",
+    gap: "0.5rem",
+
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+});
+
+export const LastBookReadAndAvaliationListContainer = styled("div", {
+  marginRight: "4rem",
+});

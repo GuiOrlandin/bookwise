@@ -4,15 +4,15 @@ export const AvaliationsContainer = styled("div", {
   display: "flex",
   flexDirection: "column",
   marginTop: "1rem",
-  marginRight: "4rem",
   background: "#181C2A",
   padding: "1.5rem",
   border: "2px solid transparent",
   borderRadius: "8px",
 
-  "&:hover": {
-    cursor: "pointer",
-    border: "2px solid #303F73",
+  img: {
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
 });
 

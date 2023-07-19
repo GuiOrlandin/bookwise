@@ -229,12 +229,14 @@ export const UserInfo = styled("div", {
 export const AvaliationText = styled("textarea", {
   height: "10.25rem",
   width: "100%",
+  zIndex: "1",
   background: "#0E1116",
   border: "1px solid #303F73",
   borderRadius: "8px",
   color: "#E6E8F2",
   padding: "0.875rem 1.25rem",
   fontSize: "0.875rem",
+  resize: "none",
 
   "&:focus": {
     outline: "none",
@@ -251,14 +253,14 @@ export const AvaliationTextButtons = styled("div", {
   display: "flex",
   justifyContent: "end",
   gap: "0.5rem",
+  marginTop: "0.75rem",
 });
 
 export const CloseAvaliationTextButton = styled("button", {
   display: "flex",
   padding: "0.5rem",
-  backgroundColor: "#252D4A",
+  background: "#252D4A",
   borderRadius: "8px",
-  border: "1px solid #252D4A",
 
   svg: {
     color: "#8381D9",
@@ -266,7 +268,7 @@ export const CloseAvaliationTextButton = styled("button", {
 
   "&:hover": {
     cursor: "pointer",
-    background: "#252D4A",
+    background: "#303F73",
   },
 });
 
@@ -274,6 +276,7 @@ export const SendAvaliationTextButton = styled("button", {
   display: "flex",
   padding: "0.5rem",
   background: "#252D4A",
+  borderRadius: "8px",
 
   svg: {
     color: "#50B2C0",
@@ -281,7 +284,7 @@ export const SendAvaliationTextButton = styled("button", {
 
   "&:hover": {
     cursor: "pointer",
-    background: "#252D4A",
+    background: "#303F73",
   },
 });
 export const ContentOfAuthenticate = styled(Dialog.Content, {
@@ -305,7 +308,6 @@ export const TitleOfAuthenticate = styled(Dialog.Title, {
 
 export const CloseButtonOfAuthenticate = styled(Dialog.Close, {
   display: "flex",
-  background: "none",
   border: "none",
   marginLeft: "25rem",
   padding: "1rem 1rem 0 0",
@@ -317,8 +319,20 @@ export const CloseButtonOfAuthenticate = styled(Dialog.Close, {
   },
 });
 
+export const TextAreaDiv = styled("div", {
+  display: "flex",
+});
+
 export const AvaliationCommentContainer = styled("div", {
   background: "#181C2A",
   padding: "1.5rem",
   borderRadius: "8px",
+
+  span: {
+    fontSize: "0.75rem",
+    color: "#7C7C8A",
+    marginLeft: "-2.8rem",
+    marginTop: "8.7rem",
+    zIndex: "2",
+  },
 });
