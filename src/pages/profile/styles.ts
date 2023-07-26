@@ -56,3 +56,99 @@ export const SearchInput = styled("form", {
     border: "none",
   },
 });
+
+export const ProfileInfoContainer = styled("div", {
+  display: "flex",
+  width: "19.25rem",
+  height: "33rem",
+  padding: "0 5rem",
+  marginTop: "8.625rem",
+  marginRight: "6rem",
+  flexDirection: "column",
+  alignItems: "center",
+  borderLeft: "1px solid #181C2A",
+
+  h2: {
+    color: "#F8F9FC",
+    fontSize: "1.25rem",
+    marginTop: "1.25rem",
+  },
+
+  span: {
+    display: "flex",
+    color: "#8D95AF",
+  },
+});
+
+export const NameAndDateMember = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "column",
+  width: "12.6875rem",
+
+  position: "relative",
+
+  "&::after": {
+    content: "''",
+    position: "absolute",
+    bottom: "0",
+    top: "140%",
+    borderRadius: "8px",
+    left: "40%",
+    width: "32px",
+    height: "4px",
+    background: "linear-gradient(180deg, #7FD1CC 0%, #9694F5 100%)",
+  },
+});
+
+export const ReadsBooksInfoContainer = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+
+  p: {
+    color: "#E6E8F2",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
+
+  span: {
+    color: "#D1D6E4",
+    fontSize: "0.875rem",
+  },
+});
+
+export const PagesReades = styled("div", {
+  display: "flex",
+  marginTop: "5rem",
+
+  svg: {
+    marginRight: "1.25rem",
+  },
+});
+
+export const BooksAvaliated = styled("div", {
+  display: "flex",
+  marginTop: "2.875rem",
+
+  svg: {
+    marginRight: "1.25rem",
+  },
+});
+
+export const AutorsReads = styled("div", {
+  display: "flex",
+  marginTop: "2.875rem",
+
+  svg: {
+    marginRight: "1.25rem",
+  },
+});
+
+export const CategoryMostRead = styled("div", {
+  display: "flex",
+  marginTop: "2.875rem",
+
+  svg: {
+    marginRight: "1.25rem",
+  },
+});

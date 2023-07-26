@@ -2,7 +2,6 @@ import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
 
 import avatarImg from "../../../../assets/avatarimg.svg";
-import georgeOrwell from "../../../../assets/Book.png";
 import {
   AvaliationButtonContainer,
   AvaliationCommentContainer,
@@ -11,6 +10,7 @@ import {
   AvaliationsContainer,
   BookCardContainer,
   BookDescriptionsAndAvaliations,
+  BookInfoAndAvaliationContainer,
   BookInformations,
   CardContainer,
   CardContent,
@@ -39,25 +39,40 @@ import { StarsAvaliations } from "../StarsAvaliations";
 import { Avaliations } from "../avaliations";
 import { BookOpen, BookmarkSimple, Check, X } from "phosphor-react";
 import { LoginAuthenticate } from "@/pages/login/components";
+import { Ratings } from "@/pages/explorer/index.page";
 
 interface Props {
   userAuthenticate?: boolean;
+  name: string;
+  author: string;
+  cover_url: string;
+  summary?: string;
+  total_pages?: number;
+  ratings?: Ratings[];
+  created_at?: Date;
 }
 
-export function BookCard({ userAuthenticate = true }: Props) {
+export function BookCard({
+  userAuthenticate = true,
+  name,
+  author,
+  cover_url,
+  total_pages,
+  ratings,
+  created_at,
+}: Props) {
   return (
     <Dialog.Root>
       <Trigger asChild>
         <BookCardContainer>
-          <Image src={georgeOrwell} width={64} height={94} alt="" />
-          <div>
+          <Image src={`/${cover_url}`} width={108} height={152} alt="" />
+          <BookInfoAndAvaliationContainer>
             <NameAndAuthor>
-              <h1>A revolução dos bichos</h1>
-              <p>George Orwell</p>
-
-              <StarsAvaliations />
+              <h1>{name}</h1>
+              <p>{author}</p>
             </NameAndAuthor>
-          </div>
+            <StarsAvaliations />
+          </BookInfoAndAvaliationContainer>
         </BookCardContainer>
       </Trigger>
       <Portal>
@@ -65,15 +80,15 @@ export function BookCard({ userAuthenticate = true }: Props) {
         <Content>
           <CardContainer>
             <CardContent>
-              <Image src={georgeOrwell} width={171.65} height={242} alt="" />
+              <Image src={`/${cover_url}`} width={171.65} height={242} alt="" />
               <BookDescriptionsAndAvaliations>
                 <NameAndAuthorModal>
-                  <h1>A revolução dos bichos</h1>
-                  <p>George Orwell</p>
+                  <h1>{name}</h1>
+                  <p>{author}</p>
                 </NameAndAuthorModal>
                 <StarsAndAvaliations>
                   <StarsAvaliations />
-                  <span>3 Avaliação</span>
+                  <span>{ratings?.length} Avaliação</span>
                 </StarsAndAvaliations>
               </BookDescriptionsAndAvaliations>
             </CardContent>
@@ -89,7 +104,7 @@ export function BookCard({ userAuthenticate = true }: Props) {
                 <BookOpen color="#50B2C0" size={24} />
                 <PagesDescriptionContent>
                   <p>Páginas</p>
-                  <span>160</span>
+                  <span>{total_pages}</span>
                 </PagesDescriptionContent>
               </PagesDescriptionContainer>
             </BookInformations>
@@ -143,10 +158,13 @@ export function BookCard({ userAuthenticate = true }: Props) {
                 </Dialog.Portal>
               </Dialog.Root>
             )}
-            <Avaliations AvaliatioWithoutBookContent={true} />
-            <Avaliations AvaliatioWithoutBookContent={true} />
-            <Avaliations AvaliatioWithoutBookContent={true} />
-            <Avaliations AvaliatioWithoutBookContent={true} />
+            {ratings?.map((rating) => (
+              <Avaliations
+                key={rating.book_id}
+                rating={ratings}
+                AvaliatioWithoutBookContent={true}
+              />
+            ))}
           </AvaliationsContainer>
           <Dialog.Close />
         </Content>

@@ -15,11 +15,13 @@ import Image from "next/image";
 import avatarImg from "../../../../assets/avatarimg.svg";
 import hobit from "../../../../assets/o-hobbit.png";
 import { StarsAvaliations } from "../StarsAvaliations";
+import { Ratings } from "@/pages/explorer/index.page";
 interface Props {
   AvaliatioWithoutBookContent: boolean;
+  rating: Ratings[];
 }
 
-export function Avaliations({ AvaliatioWithoutBookContent }: Props) {
+export function Avaliations({ AvaliatioWithoutBookContent, rating }: Props) {
   return (
     <>
       {AvaliatioWithoutBookContent ? (

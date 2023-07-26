@@ -4,36 +4,36 @@ import Bookimage from "../../../../assets/Book.png";
 import { StarsAvaliations } from "../StarsAvaliations";
 import {
   BookContentAndDateContainer,
-  BookDescriptionContainer,
+  BookContentAndDateContainerProfile,
   BookNameAndAuthor,
+  BookNameAndAuthorProfile,
   ImageBookNameAndStarAvaliationContainer,
   ReadBookCardContainer,
   ReadBookCardContainerProfile,
   StarsAndDateContainer,
+  TextAvaliation,
 } from "./styles";
 
 interface Props {
   profile: boolean;
 }
 
-export function ReadBookCard({ profile = true }: Props) {
+export function ReadBookCard({ profile }: Props) {
   return (
     <>
       {profile ? (
-        <div>
+        <BookContentAndDateContainerProfile>
           <p>Hás 2 dias</p>
           <ReadBookCardContainerProfile>
             <ImageBookNameAndStarAvaliationContainer>
-              <BookDescriptionContainer>
-                <Image src={Bookimage} alt=""></Image>
-                <BookNameAndAuthor>
-                  <h2>Entendendo Algoritmos</h2>
-                  <span>Aditya Bhargava</span>
-                </BookNameAndAuthor>
-              </BookDescriptionContainer>
-              <StarsAvaliations />
+              <Image src={Bookimage} alt=""></Image>
+              <BookNameAndAuthorProfile>
+                <h2>Entendendo Algoritmos</h2>
+                <span>Aditya Bhargava</span>
+                <StarsAvaliations />
+              </BookNameAndAuthorProfile>
             </ImageBookNameAndStarAvaliationContainer>
-            <p>
+            <TextAvaliation>
               Tristique massa sed enim lacinia odio. Congue ut faucibus nunc
               vitae non. Nam feugiat vel morbi viverra vitae mi. Vitae fringilla
               ut et suspendisse enim suspendisse vitae. Leo non eget lacus
@@ -42,9 +42,9 @@ export function ReadBookCard({ profile = true }: Props) {
               sem. Nam donec accumsan curabitur amet tortor quam sit. Bibendum
               enim sit dui lorem urna amet elit rhoncus ut. Aliquet euismod
               vitae ut turpis. Aliquam amet integer pellentesque.
-            </p>
+            </TextAvaliation>
           </ReadBookCardContainerProfile>
-        </div>
+        </BookContentAndDateContainerProfile>
       ) : (
         <ReadBookCardContainer>
           <Image src={Bookimage} alt=""></Image>

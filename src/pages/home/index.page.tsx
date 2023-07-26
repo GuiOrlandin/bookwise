@@ -36,7 +36,7 @@ export default function Home({ UserAuthenticated = true }: Props) {
                 Ver todas <CaretRight />
               </button>
             </LastReadingsTextAndSeAllButtonContainer>
-            <ReadBookCard />
+            <ReadBookCard profile={false} />
           </LastReadingsContainer>
         )}
         <RecentlyReviewedBooks>

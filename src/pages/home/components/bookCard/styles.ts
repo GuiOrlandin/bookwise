@@ -66,19 +66,32 @@ export const CardContent = styled("div", {
 export const NameAndAuthor = styled("div", {
   display: "flex",
   flexDirection: "column",
-  marginLeft: "1.25rem",
 
   h1: {
     fontSize: "1rem",
     color: "#F8F9FC",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "wrap",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    maxWidth: "120px",
   },
 
   p: {
     fontSize: "0.875rem",
     fontWeight: "400",
     color: "#8D95AF",
-    marginBottom: "2.125rem",
   },
+});
+
+export const BookInfoAndAvaliationContainer = styled("div", {
+  display: "flex",
+  marginLeft: "1.25rem",
+
+  flexDirection: "column",
+  justifyContent: "space-between",
 });
 
 export const NameAndAuthorModal = styled("div", {
