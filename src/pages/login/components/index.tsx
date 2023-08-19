@@ -2,29 +2,47 @@ import Image from "next/image";
 import googleIcon from "../../../assets/google-icon.svg";
 import githubIcon from "../../../assets/github-icon.svg";
 import rocketIcon from "../../../assets/rocket-icon.svg";
-import { LoginContainer, AuthContainer, VisitorContainer } from "./styles";
+import {
+  LoginContainer,
+  VisitorContainer,
+  GoogleAuthContainer,
+  GitHubAuthContainer,
+} from "./styles";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface Props {
   visitorButtonEnabled?: boolean;
-  onLogin?: () => void;
+  callbackUrl?: string;
 }
 
 export function LoginAuthenticate({
   visitorButtonEnabled = false,
-  onLogin,
+  callbackUrl = "/home",
 }: Props) {
+  const router = useRouter();
+
+  function handleAuthenticate(provider?: string) {
+    if (provider !== "visitor") {
+      signIn(provider, {
+        callbackUrl,
+      });
+    }
+
+    router.push("/home");
+  }
   return (
     <LoginContainer>
-      <AuthContainer>
+      <GoogleAuthContainer onClick={() => handleAuthenticate("google")}>
         <Image src={googleIcon} quality={100} alt="icone do google"></Image>
         <p>Entrar com Google</p>
-      </AuthContainer>
-      <AuthContainer>
+      </GoogleAuthContainer>
+      <GitHubAuthContainer onClick={() => handleAuthenticate("github")}>
         <Image src={githubIcon} quality={100} alt="icone do github"></Image>
         <p>Entrar com Github</p>
-      </AuthContainer>
+      </GitHubAuthContainer>
       {visitorButtonEnabled && (
-        <VisitorContainer onClick={onLogin}>
+        <VisitorContainer onClick={() => handleAuthenticate("visitor")}>
           <Image src={rocketIcon} quality={100} alt=""></Image>
           <p>Acessar como visitante</p>
         </VisitorContainer>

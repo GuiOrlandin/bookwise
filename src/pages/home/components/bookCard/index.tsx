@@ -16,6 +16,7 @@ import {
   CardContent,
   CategoryDescriptionContainer,
   CategoryDescriptionContent,
+  CategorysContainer,
   CloseAvaliationTextButton,
   CloseButtonOfAuthenticate,
   Content,
@@ -39,39 +40,33 @@ import { StarsAvaliations } from "../StarsAvaliations";
 import { Avaliations } from "../avaliations";
 import { BookOpen, BookmarkSimple, Check, X } from "phosphor-react";
 import { LoginAuthenticate } from "@/pages/login/components";
-import { Ratings } from "@/pages/explorer/index.page";
+import { Book } from "@/pages/explorer/index.page";
+import { ChangeEvent, useState } from "react";
 
 interface Props {
   userAuthenticate?: boolean;
-  name: string;
-  author: string;
-  cover_url: string;
-  summary?: string;
-  total_pages?: number;
-  ratings?: Ratings[];
-  created_at?: Date;
+  book: Book;
 }
 
-export function BookCard({
-  userAuthenticate = true,
-  name,
-  author,
-  cover_url,
-  total_pages,
-  ratings,
-  created_at,
-}: Props) {
+export function BookCard({ userAuthenticate = true, book }: Props) {
+  const [textAreaContent, setTextAreaContent] = useState<string>("");
+
+  function handleInputChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    const TextAreaContentOnEvent = event.target.value;
+
+    setTextAreaContent(TextAreaContentOnEvent);
+  }
   return (
     <Dialog.Root>
       <Trigger asChild>
         <BookCardContainer>
-          <Image src={`/${cover_url}`} width={108} height={152} alt="" />
+          <Image src={`/${book.cover_url}`} width={108} height={152} alt="" />
           <BookInfoAndAvaliationContainer>
             <NameAndAuthor>
-              <h1>{name}</h1>
-              <p>{author}</p>
+              <h1>{book.name}</h1>
+              <p>{book.author}</p>
             </NameAndAuthor>
-            <StarsAvaliations />
+            <StarsAvaliations avgRating={book.avgRating! - 1} />
           </BookInfoAndAvaliationContainer>
         </BookCardContainer>
       </Trigger>
@@ -80,31 +75,47 @@ export function BookCard({
         <Content>
           <CardContainer>
             <CardContent>
-              <Image src={`/${cover_url}`} width={171.65} height={242} alt="" />
+              <Image
+                src={`/${book.cover_url}`}
+                width={171.65}
+                height={242}
+                alt=""
+              />
               <BookDescriptionsAndAvaliations>
                 <NameAndAuthorModal>
-                  <h1>{name}</h1>
-                  <p>{author}</p>
+                  <h1>{book.name}</h1>
+                  <p>{book.author}</p>
                 </NameAndAuthorModal>
                 <StarsAndAvaliations>
-                  <StarsAvaliations />
-                  <span>{ratings?.length} Avaliação</span>
+                  <StarsAvaliations avgRating={book.avgRating! - 1} />
+                  <span>{book.ratings?.length} Avaliação</span>
                 </StarsAndAvaliations>
               </BookDescriptionsAndAvaliations>
             </CardContent>
             <BookInformations>
               <CategoryDescriptionContainer>
                 <BookmarkSimple color="#50B2C0" size={24} />
-                <CategoryDescriptionContent>
+                <div>
                   <p>Categoria</p>
-                  <span>Computação, educação</span>
-                </CategoryDescriptionContent>
+                  <CategoryDescriptionContent>
+                    {book.categories?.map((categoriesOfTheBook, index) => (
+                      <CategorysContainer key={categoriesOfTheBook.book_id}>
+                        <span>{`${categoriesOfTheBook.category.name}`}</span>
+                        {index + 1 !== book.categories?.length ? (
+                          <span>, </span>
+                        ) : (
+                          <span>.</span>
+                        )}
+                      </CategorysContainer>
+                    ))}
+                  </CategoryDescriptionContent>
+                </div>
               </CategoryDescriptionContainer>
               <PagesDescriptionContainer>
                 <BookOpen color="#50B2C0" size={24} />
                 <PagesDescriptionContent>
                   <p>Páginas</p>
-                  <span>{total_pages}</span>
+                  <span>{book.total_pages}</span>
                 </PagesDescriptionContent>
               </PagesDescriptionContainer>
             </BookInformations>
@@ -122,8 +133,13 @@ export function BookCard({
                     <StarsAvaliations />
                   </StarsAvaliationAndUserInfo>
                   <TextAreaDiv>
-                    <AvaliationText placeholder="Escreva sua avaliação" />
-                    <span>0/450</span>
+                    <AvaliationText
+                      value={textAreaContent}
+                      maxLength={450}
+                      placeholder="Escreva sua avaliação"
+                      onChange={handleInputChange}
+                    />
+                    <span>{`${textAreaContent.length}/450`}</span>
                   </TextAreaDiv>
                   <AvaliationTextButtons>
                     <CloseAvaliationTextButton>
@@ -158,10 +174,10 @@ export function BookCard({
                 </Dialog.Portal>
               </Dialog.Root>
             )}
-            {ratings?.map((rating) => (
+            {book.ratings?.map((rating) => (
               <Avaliations
                 key={rating.book_id}
-                rating={ratings}
+                rating={book.ratings}
                 AvaliatioWithoutBookContent={true}
               />
             ))}

@@ -7,6 +7,7 @@ export const Stars = styled("div", {
 
   svg: {
     "&:hover": {
+      cursor: "pointer",
       variants: {
         weight: "fill",
         backgroundColor: "#8381D9",

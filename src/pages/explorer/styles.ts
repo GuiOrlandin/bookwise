@@ -8,6 +8,7 @@ export const ExplorerContainer = styled("div", {
 
 export const ExplorerContent = styled("div", {
   display: "flex",
+  height: "100vw",
   flexDirection: "column",
   width: "62.25rem",
   margin: "4.5rem 6rem 3rem 5.256rem",

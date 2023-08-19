@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BookCard } from "../home/components/bookCard";
 import { Sidebar } from "../home/components/sidebar";
 import {
@@ -14,12 +14,27 @@ import {
 import { Binoculars, MagnifyingGlass } from "phosphor-react";
 import { api } from "@/lib/axios";
 import { cardBookContext } from "@/context/cardBookContext";
+import { useQuery } from "@tanstack/react-query";
 
 interface FilteredBooks {
   book_id: string;
   categoryId: string;
 }
 
+export interface User {
+  id: string;
+  name: string;
+  avatar_url: string;
+  created_at: string;
+}
+
+export interface Category {
+  book_id: string;
+  categoryId: string;
+  category: {
+    name: string;
+  };
+}
 export interface Ratings {
   id: string;
   rate: number;
@@ -27,8 +42,9 @@ export interface Ratings {
   created_at: string;
   book_id: string;
   user_id: string;
+  user: User;
 }
-interface Book {
+export interface Book {
   name: string;
   author: string;
   cover_url: string;
@@ -36,7 +52,9 @@ interface Book {
   total_pages: number;
   created_at: Date;
   id: string;
+  avgRating?: number;
   ratings?: Ratings[];
+  categories?: Category[];
 }
 
 export default function Explorer() {
@@ -44,6 +62,7 @@ export default function Explorer() {
   const [activeGenre, setActiveGenre] = useState<string | null>(null);
   const [bookList, setBookList] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [inputContent, setInputContent] = useState<string>("");
 
   async function handleGetBooksByCategory(categoryId: string) {
     try {
@@ -70,8 +89,6 @@ export default function Explorer() {
       );
 
       setBookList(filteredBooksList);
-
-      console.log(bookList);
     } catch (error) {
       console.error("List Books dont found!", error);
     }
@@ -84,9 +101,30 @@ export default function Explorer() {
     }
   }, [allBooks]);
 
-  // if (loading) {
-  //   return <h1>loading</h1>;
-  // }
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    const inputContentOnEvent = event.target.value;
+
+    if (!inputContentOnEvent) {
+      return setBookList(allBooks);
+    }
+
+    setInputContent(inputContentOnEvent);
+  }
+
+  function handleInputQuery() {
+    const consultedBooks = bookList.filter(
+      (book) =>
+        book.author.toLowerCase().includes(inputContent.toLowerCase()) ||
+        book.name.toLowerCase().includes(inputContent.toLowerCase())
+    );
+
+    setBookList(consultedBooks);
+    setActiveGenre(null);
+  }
+
+  if (loading) {
+    return <h1>loading</h1>;
+  }
 
   return (
     <ExplorerContainer>
@@ -99,8 +137,12 @@ export default function Explorer() {
           </ExplorerIndicator>
 
           <SearchInput>
-            <input type="text" placeholder="Buscar livro ou autor" />
-            <button type="submit">
+            <input
+              type="text"
+              placeholder="Buscar livro ou autor"
+              onChange={handleInputChange}
+            />
+            <button type="button" onClick={handleInputQuery}>
               <MagnifyingGlass size={20} color="#303F73" />
             </button>
           </SearchInput>
@@ -118,15 +160,7 @@ export default function Explorer() {
         </ListOfGenresContainer>
         <ListOfBookCards>
           {bookList.map((book) => (
-            <BookCard
-              key={book.name}
-              author={book.author}
-              cover_url={book.cover_url}
-              name={book.name}
-              total_pages={book.total_pages}
-              created_at={book.created_at}
-              ratings={book.ratings}
-            />
+            <BookCard key={book.name} book={book} />
           ))}
         </ListOfBookCards>
       </ExplorerContent>

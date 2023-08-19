@@ -8,10 +8,6 @@ import { useRouter } from "next/router";
 export default function Login() {
   const router = useRouter();
 
-  function handleNavigateToHome() {
-    router.push("/home");
-  }
-
   return (
     <Container>
       <Image
@@ -27,10 +23,7 @@ export default function Login() {
           <h2>Boas vindas!</h2>
           <p>Faça seu login ou acesse como visitante.</p>
         </TextContainer>
-        <LoginAuthenticate
-          visitorButtonEnabled
-          onLogin={handleNavigateToHome}
-        />
+        <LoginAuthenticate visitorButtonEnabled />
       </ContainerTest>
     </Container>
   );

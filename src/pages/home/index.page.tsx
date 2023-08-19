@@ -41,9 +41,9 @@ export default function Home({ UserAuthenticated = true }: Props) {
         )}
         <RecentlyReviewedBooks>
           <p>Avaliações mais recentes</p>
+          {/* <Avaliations AvaliatioWithoutBookContent={false} />
           <Avaliations AvaliatioWithoutBookContent={false} />
-          <Avaliations AvaliatioWithoutBookContent={false} />
-          <Avaliations AvaliatioWithoutBookContent={false} />
+          <Avaliations AvaliatioWithoutBookContent={false} /> */}
         </RecentlyReviewedBooks>
       </LastBookReadAndAvaliationListContainer>
       <PopularBook>
@@ -53,9 +53,9 @@ export default function Home({ UserAuthenticated = true }: Props) {
             Ver todos <CaretRight />
           </span>
         </PopularBookAndSeeAllBooks>
+        {/* <BookCard />
         <BookCard />
-        <BookCard />
-        <BookCard />
+        <BookCard /> */}
       </PopularBook>
     </HomeContainer>
   );

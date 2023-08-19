@@ -148,6 +148,10 @@ export const CategoryDescriptionContainer = styled("div", {
   display: "flex",
   alignItems: "center",
 
+  p: {
+    marginLeft: "1rem",
+  },
+
   svg: {
     marginTop: "1.4rem",
   },
@@ -155,8 +159,15 @@ export const CategoryDescriptionContainer = styled("div", {
 
 export const CategoryDescriptionContent = styled("div", {
   display: "flex",
-  flexDirection: "column",
   marginLeft: "1rem",
+});
+
+export const CategorysContainer = styled("div", {
+  display: "flex",
+
+  "span + span": {
+    marginRight: "0.3rem",
+  },
 });
 
 export const PagesDescriptionContainer = styled("div", {
@@ -242,6 +253,7 @@ export const UserInfo = styled("div", {
 export const AvaliationText = styled("textarea", {
   height: "10.25rem",
   width: "100%",
+  maxLength: "450",
   zIndex: "1",
   background: "#0E1116",
   border: "1px solid #303F73",
@@ -340,11 +352,13 @@ export const AvaliationCommentContainer = styled("div", {
   background: "#181C2A",
   padding: "1.5rem",
   borderRadius: "8px",
+  position: "relative",
 
   span: {
+    position: "absolute",
     fontSize: "0.75rem",
     color: "#7C7C8A",
-    marginLeft: "-2.8rem",
+    marginLeft: "29rem",
     marginTop: "8.7rem",
     zIndex: "2",
   },

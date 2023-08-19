@@ -37,7 +37,7 @@ export function CardBookContextProvider({
     try {
       const books = await api.get("/books");
       const categorys = await api.get("/books/categories");
-      setAllBooks(books.data.listOfBooks);
+      setAllBooks(books.data.booksWithAvgRating);
       setGenreList(categorys.data.ListOfCategorys);
     } catch {
       console.log("error fetching initial data");

@@ -1,5 +1,3 @@
-// /api/book?bookId=48b86ac2-014e-401d-bcbb-331ce5f4a457
-
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -26,18 +24,46 @@ export default async function handler(
     return res.json({ filteredBooks });
   }
 
-  const listOfBooks = await prisma.book.findMany({
+  const books = await prisma.book.findMany({
     include: {
-      ratings: true,
+      ratings: {
+        include: {
+          user: true,
+        },
+      },
+      categories: {
+        include: {
+          category: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
   });
 
   const booksAvgRating = await prisma.rating.groupBy({
     by: ["book_id"],
+    where: {
+      book_id: {
+        in: books.map((book) => book.id),
+      },
+    },
     _avg: {
       rate: true,
     },
   });
 
-  return res.json({ listOfBooks });
+  const booksWithAvgRating = books.map((book) => {
+    const bookAvgRating = booksAvgRating.find(
+      (avgRating) => avgRating.book_id === book.id
+    );
+    return {
+      ...book,
+      avgRating: bookAvgRating?._avg.rate,
+    };
+  });
+
+  return res.json({ booksWithAvgRating });
 }

@@ -1,6 +1,6 @@
 import { styled } from "@stitches/react";
 
-export const AuthContainer = styled("button", {
+export const GoogleAuthContainer = styled("button", {
   display: "flex",
   alignItems: "center",
   width: "23.25rem",
@@ -22,6 +22,8 @@ export const AuthContainer = styled("button", {
   },
 });
 
+export const GitHubAuthContainer = styled(GoogleAuthContainer, {});
+
 export const LoginContainer = styled("div", {
   display: "flex",
   marginTop: "2.5rem",
@@ -29,6 +31,6 @@ export const LoginContainer = styled("div", {
   gap: "1rem",
 });
 
-export const VisitorContainer = styled(AuthContainer, {
+export const VisitorContainer = styled(GoogleAuthContainer, {
   paddingRight: "6.5rem",
 });
