@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ratings } from "../../../../prisma/constants/ratings";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,38 +10,42 @@ export default async function handler(
 
   const bookId = String(req.query.bookId);
 
-  const book = await prisma.book.findUnique({
-    where: {
-      id: bookId,
+  const books = await prisma.book.findMany({
+    orderBy: {
+      ratings: {
+        _count: "desc",
+      },
     },
     include: {
-      categories: {
-        include: {
-          category: true,
-        },
-      },
-      ratings: {
-        include: {
-          user: true,
-        },
-      },
+      ratings: true,
     },
+
+    take: 4,
   });
 
   const booksAvgRating = await prisma.rating.groupBy({
     by: ["book_id"],
     where: {
-      book_id: bookId,
+      book_id: {
+        in: books.map((book) => book.id),
+      },
     },
     _avg: {
       rate: true,
     },
   });
 
-  const bookWithAvgRating = {
-    ...book,
-    avgRating: booksAvgRating[0]?._avg.rate ?? 0,
-  };
+  const booksWithAvgRating = books.map((book) => {
+    const bookAvgRating = booksAvgRating.find(
+      (avgRating) => avgRating.book_id === book.id
+    );
+    const { ratings, ...bookInfo } = book;
 
-  return res.json({ book: bookWithAvgRating });
+    return {
+      ...bookInfo,
+      avgRating: bookAvgRating?._avg.rate,
+    };
+  });
+
+  return res.json({ books: booksWithAvgRating });
 }

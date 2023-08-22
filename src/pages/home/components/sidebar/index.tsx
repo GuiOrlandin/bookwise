@@ -5,15 +5,21 @@ import Image from "next/image";
 import { Binoculars, ChartLineUp, SignIn, SignOut, User } from "phosphor-react";
 import {
   AvatarandUserName,
+  Content,
   ExplorerButton,
   HomeButton,
   LoginButton,
   LogoutButton,
   ProfileButton,
   SidebarContainer,
+  Title,
 } from "./styles";
+import * as Dialog from "@radix-ui/react-dialog";
 import bookWise from "../../../../assets/bookwise-logo.svg";
 import avatarImage from "../../../../assets/avatarimg.svg";
+import { signOut, useSession } from "next-auth/react";
+import { sign } from "crypto";
+import { LoginAuthenticate } from "@/pages/login/components";
 
 interface Props {
   UserAuthenticated?: boolean;
@@ -22,11 +28,21 @@ interface Props {
 
 export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
   const [componentClicked, setComponentClicked] = useState(pageSelected);
+
+  const { data: session } = useSession();
+  const userLoged = session?.user;
+  const name = userLoged?.name.split(" ");
+  console.log(name);
   const router = useRouter();
 
   function HandleClick(component: string) {
     setComponentClicked(component);
     router.push(`/${component}`);
+  }
+
+  function testSignOut() {
+    console.log(session?.user);
+    signOut();
   }
 
   return (
@@ -47,7 +63,7 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
         <Binoculars size={24} />
         Explorar
       </ExplorerButton>
-      {UserAuthenticated ? (
+      {userLoged ? (
         <>
           <ProfileButton
             IsClicked={componentClicked === "profile"}
@@ -59,16 +75,28 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
 
           <AvatarandUserName>
             <Image src={avatarImage} quality={100} alt=""></Image>
-            <p>Jaxson</p>
-            <LogoutButton>
+            <p>{name && name[0]}</p>
+            <LogoutButton onClick={() => signOut()}>
               <SignOut size={20} />
             </LogoutButton>
           </AvatarandUserName>
         </>
       ) : (
-        <LoginButton>
-          <p>Fazer login</p> <SignIn color="#50B2C0" size={20} />
-        </LoginButton>
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <LoginButton>
+              <p>Fazer login</p>
+              <SignIn color="#50B2C0" size={20} />
+            </LoginButton>
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Content>
+              <Title>Faça login para deixar sua avaliação</Title>
+
+              <LoginAuthenticate />
+            </Content>
+          </Dialog.Portal>
+        </Dialog.Root>
       )}
     </SidebarContainer>
   );

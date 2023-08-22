@@ -47,8 +47,19 @@ export const PopularBook = styled("div", {
   },
 });
 
+export const PopularBooksContainer = styled("div", {
+  display: "flex",
+  marginBottom: "0.75rem",
+
+  img: {
+    width: "4rem",
+    height: "5.875rem",
+  },
+});
+
 export const PopularBookAndSeeAllBooks = styled("div", {
   display: "flex",
+
   justifyContent: "space-between",
   marginBottom: "1rem",
 });

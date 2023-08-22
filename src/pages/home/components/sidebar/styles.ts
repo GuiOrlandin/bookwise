@@ -1,4 +1,5 @@
 import { styled } from "@stitches/react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export const SidebarContainer = styled("div", {
   display: "flex",
@@ -8,7 +9,7 @@ export const SidebarContainer = styled("div", {
   margin: "1.25rem  1.25rem",
   borderRadius: "8px",
   with: "14.5rem",
-  height: "62.4rem",
+  height: "61.75rem",
   background: "#252D4A",
 });
 
@@ -102,13 +103,12 @@ export const LoginButton = styled("button", {
   border: "none",
   color: "#F8F9FC",
 
+  "&:hover": {
+    cursor: "pointer",
+  },
+
   p: {
     borderBottom: "1px solid transparent",
-
-    "&:hover": {
-      cursor: "pointer",
-      borderBottom: "1px solid white",
-    },
   },
 });
 
@@ -119,4 +119,24 @@ export const LogoutButton = styled("button", {
   "&:hover": {
     cursor: "pointer",
   },
+});
+
+export const Content = styled(Dialog.Content, {
+  background: "#181C2A",
+  overflow: "auto",
+  borderRadius: "12px",
+  padding: "3.5rem 4.5rem",
+
+  position: "fixed",
+  top: "50%",
+  left: "32%",
+  transform: "translate(10%, -50%)",
+});
+
+export const Title = styled(Dialog.Title, {
+  display: "flex",
+
+  justifyContent: "center",
+  color: "#E6E8F2",
+  fontSize: "1rem",
 });

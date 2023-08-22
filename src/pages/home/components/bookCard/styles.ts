@@ -7,7 +7,6 @@ export const BookCardContainer = styled("div", {
   borderRadius: "8px",
   width: "19.25rem",
   background: "#181C2A",
-  margin: "0.75rem",
   border: "2px solid transparent",
 
   "&:hover": {
@@ -47,7 +46,6 @@ export const CardContainer = styled("div", {
   margin: "3rem 4rem 2.5rem 2.5rem",
   borderRadius: "8px",
   padding: "1.5rem 2rem 2.5rem 2rem",
-  width: "35.25rem",
 
   background: "#181C2A",
 
@@ -76,7 +74,6 @@ export const NameAndAuthor = styled("div", {
     display: "-webkit-box",
     WebkitLineClamp: 2,
     WebkitBoxOrient: "vertical",
-    maxWidth: "120px",
   },
 
   p: {
@@ -97,7 +94,7 @@ export const BookInfoAndAvaliationContainer = styled("div", {
 export const NameAndAuthorModal = styled("div", {
   display: "flex",
   flexDirection: "column",
-  marginLeft: "1.25rem",
+  // marginLeft: "1.25rem",
 
   h1: {
     fontSize: "1.125rem",

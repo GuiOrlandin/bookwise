@@ -14,7 +14,6 @@ export function StarsAvaliations({ avgRating }: Props) {
   const ratinValue = isEditable ? previewValue : avgRating;
 
   function handleItemClick(index: number) {
-    const starIndex = index;
     setStarsFilled(index);
     console.log(avgRating);
   }

@@ -8,18 +8,28 @@ import {
   LastReadingsTextAndSeAllButtonContainer,
   PopularBook,
   PopularBookAndSeeAllBooks,
+  PopularBooksContainer,
   RecentlyReviewedBooks,
 } from "./styles";
-import { Avaliations } from "./components/avaliations";
-import { StarsAvaliations } from "./components/StarsAvaliations";
-import { BookCard } from "./components/bookCard";
+
 import { ReadBookCard } from "./components/ReadBookCard";
+import { useQuery } from "@tanstack/react-query";
+import { Book } from "../explorer/index.page";
+import { api } from "@/lib/axios";
+import { BookCard } from "./components/bookCard";
 
 interface Props {
   UserAuthenticated?: boolean;
 }
 
 export default function Home({ UserAuthenticated = true }: Props) {
+  const { data: popularBooks } = useQuery<Book[]>(
+    ["popular-books"],
+    async () => {
+      const { data } = await api.get("/books/popularBooks");
+      return data.books ?? [];
+    }
+  );
   return (
     <HomeContainer>
       <Sidebar UserAuthenticated={UserAuthenticated} pageSelected="home" />;
@@ -53,9 +63,11 @@ export default function Home({ UserAuthenticated = true }: Props) {
             Ver todos <CaretRight />
           </span>
         </PopularBookAndSeeAllBooks>
-        {/* <BookCard />
-        <BookCard />
-        <BookCard /> */}
+        {popularBooks?.map((book) => (
+          <PopularBooksContainer key={book.id}>
+            <BookCard book={book} />
+          </PopularBooksContainer>
+        ))}
       </PopularBook>
     </HomeContainer>
   );
