@@ -24,6 +24,7 @@ interface FilteredBooks {
 export interface User {
   id: string;
   name: string;
+  email: string;
   avatar_url: string;
   created_at: string;
 }
@@ -42,7 +43,8 @@ export interface Ratings {
   created_at: string;
   book_id: string;
   user_id: string;
-  user: User;
+  user?: User;
+  book?: Book;
 }
 export interface Book {
   name: string;

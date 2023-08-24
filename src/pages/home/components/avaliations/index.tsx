@@ -20,57 +20,49 @@ import { relativeDateFormatter } from "@/utils/formatter";
 import { Avatar } from "../avatar";
 interface Props {
   AvaliatioWithoutBookContent: boolean;
-  rating: Ratings[] | undefined;
+  rating: Ratings;
 }
 
 export function Avaliations({ AvaliatioWithoutBookContent, rating }: Props) {
   return (
     <>
       {AvaliatioWithoutBookContent ? (
-        rating?.map((rating) => (
-          <AvaliationsContainerWithoutBookContent key={rating.book_id}>
-            <AvatarAndStarsWithoutBookContent>
-              <UserInfo>
-                <Avatar
-                  ImageUrl={rating.user.avatar_url}
-                  key={rating.book_id}
-                />
-                <NameAndDate>
-                  <h2>{rating.user.name}</h2>
-                  <p>{relativeDateFormatter(rating.created_at)}</p>
-                </NameAndDate>
-              </UserInfo>
-              <StarsAvaliations avgRating={rating.rate - 1} />
-            </AvatarAndStarsWithoutBookContent>
-            <BookAvaliationContainer>
-              <AvaliationContentWithoutBookContent>
-                {rating.description}
-              </AvaliationContentWithoutBookContent>
-            </BookAvaliationContainer>
-          </AvaliationsContainerWithoutBookContent>
-        ))
+        <AvaliationsContainerWithoutBookContent>
+          <AvatarAndStarsWithoutBookContent>
+            <UserInfo>
+              <Avatar ImageUrl={rating.user?.avatar_url as string} />
+              <NameAndDate>
+                <h2>{rating.user?.name}</h2>
+                <p>{relativeDateFormatter(rating.created_at)}</p>
+              </NameAndDate>
+            </UserInfo>
+            <StarsAvaliations avgRating={rating.rate - 1} />
+          </AvatarAndStarsWithoutBookContent>
+          <BookAvaliationContainer>
+            <AvaliationContentWithoutBookContent>
+              {rating.description}
+            </AvaliationContentWithoutBookContent>
+          </BookAvaliationContainer>
+        </AvaliationsContainerWithoutBookContent>
       ) : (
         <AvaliationsContainer>
           <AvatarAndStars>
             <UserInfo>
-              <Image src={avatarImg} alt=""></Image>
+              <Avatar ImageUrl={rating.user?.avatar_url as string} />
               <NameAndDate>
-                <h2>Jaxson Dias</h2>
-                <p>Hoje</p>
+                <h2>{rating.user?.name}</h2>
+                <p>{relativeDateFormatter(rating.created_at)}</p>
               </NameAndDate>
             </UserInfo>
-            <StarsAvaliations />
+            <StarsAvaliations avgRating={rating.rate - 1} />
           </AvatarAndStars>
           <BookAvaliationContainer>
             <Image src={hobit} width={108} height={152} alt=""></Image>
             <AvaliationContent>
-              <h2>O Hobbit</h2>
-              <p>J.R.R. Tolkien</p>{" "}
+              <h2>{rating.book?.name}</h2>
+              <p>{rating.book?.author}</p>{" "}
               <BookAvaliationText>
-                Semper et sapien proin vitae nisi. Feugiat neque integer donec
-                et aenean posuere amet ultrices. Cras fermentum id pulvinar
-                varius leo a in. Amet libero pharetra nunc elementum fringilla
-                velit ipsum. Sed vulputate massa velit nibh{" "}
+                {rating.book?.summary}
                 <span>... ver mais</span>
               </BookAvaliationText>
             </AvaliationContent>

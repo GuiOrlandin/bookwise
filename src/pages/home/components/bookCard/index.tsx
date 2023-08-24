@@ -42,14 +42,18 @@ import { BookOpen, BookmarkSimple, Check, X } from "phosphor-react";
 import { LoginAuthenticate } from "@/pages/login/components";
 import { Book } from "@/pages/explorer/index.page";
 import { ChangeEvent, useState } from "react";
+import { useSession } from "next-auth/react";
+import { Avatar } from "../avatar";
 
 interface Props {
   userAuthenticate?: boolean;
   book: Book;
 }
 
-export function BookCard({ userAuthenticate = true, book }: Props) {
+export function BookCard({ book }: Props) {
   const [textAreaContent, setTextAreaContent] = useState<string>("");
+  const session = useSession();
+  const userAuthenticated = session.data?.user;
 
   function handleInputChange(event: ChangeEvent<HTMLTextAreaElement>) {
     const TextAreaContentOnEvent = event.target.value;
@@ -121,14 +125,14 @@ export function BookCard({ userAuthenticate = true, book }: Props) {
             </BookInformations>
           </CardContainer>
           <AvaliationsContainer>
-            {userAuthenticate ? (
+            {userAuthenticated ? (
               <UserAvaliationContainer>
                 <p>Avaliações</p>
                 <AvaliationCommentContainer>
                   <StarsAvaliationAndUserInfo>
                     <UserInfo>
-                      <Image src={avatarImg} alt=""></Image>
-                      <h2>Jaxson Dias</h2>
+                      <Avatar ImageUrl={userAuthenticated.image as string} />
+                      <h2>{userAuthenticated.name}</h2>
                     </UserInfo>
                     <StarsAvaliations />
                   </StarsAvaliationAndUserInfo>
@@ -174,10 +178,10 @@ export function BookCard({ userAuthenticate = true, book }: Props) {
                 </Dialog.Portal>
               </Dialog.Root>
             )}
-            {book.ratings?.map((rating) => (
+            {book.ratings?.map((ratings) => (
               <Avaliations
-                key={rating.book_id}
-                rating={book.ratings}
+                key={ratings.book_id}
+                rating={ratings}
                 AvaliatioWithoutBookContent={true}
               />
             ))}

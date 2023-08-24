@@ -1,14 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ratings } from "../../../../prisma/constants/ratings";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method !== "GET") return res.status(405).end();
-
-  const bookId = String(req.query.bookId);
 
   const books = await prisma.book.findMany({
     orderBy: {
@@ -17,9 +14,21 @@ export default async function handler(
       },
     },
     include: {
-      ratings: true,
+      ratings: {
+        include: {
+          user: true,
+        },
+      },
+      categories: {
+        include: {
+          category: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
-
     take: 4,
   });
 
@@ -39,10 +48,9 @@ export default async function handler(
     const bookAvgRating = booksAvgRating.find(
       (avgRating) => avgRating.book_id === book.id
     );
-    const { ratings, ...bookInfo } = book;
 
     return {
-      ...bookInfo,
+      ...book,
       avgRating: bookAvgRating?._avg.rate,
     };
   });

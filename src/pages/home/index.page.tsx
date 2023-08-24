@@ -14,15 +14,15 @@ import {
 
 import { ReadBookCard } from "./components/ReadBookCard";
 import { useQuery } from "@tanstack/react-query";
-import { Book } from "../explorer/index.page";
+import { Book, Ratings } from "../explorer/index.page";
 import { api } from "@/lib/axios";
 import { BookCard } from "./components/bookCard";
+import { useSession } from "next-auth/react";
+import { Avaliations } from "./components/avaliations";
 
-interface Props {
-  UserAuthenticated?: boolean;
-}
-
-export default function Home({ UserAuthenticated = true }: Props) {
+export default function Home() {
+  const session = useSession();
+  const userAuthenticated = session.data?.user;
   const { data: popularBooks } = useQuery<Book[]>(
     ["popular-books"],
     async () => {
@@ -30,15 +30,23 @@ export default function Home({ UserAuthenticated = true }: Props) {
       return data.books ?? [];
     }
   );
+
+  const { data: latestRatings } = useQuery<Ratings[]>(
+    ["latest-ratings"],
+    async () => {
+      const { data } = await api.get("/ratings/latest");
+      return data.ratings ?? [];
+    }
+  );
   return (
     <HomeContainer>
-      <Sidebar UserAuthenticated={UserAuthenticated} pageSelected="home" />;
+      <Sidebar pageSelected="home" />;
       <LastBookReadAndAvaliationListContainer>
         <HomeIndicator>
           <ChartLineUp size={32} color="#50B2C0" />
           Início
         </HomeIndicator>
-        {UserAuthenticated && (
+        {userAuthenticated && (
           <LastReadingsContainer>
             <LastReadingsTextAndSeAllButtonContainer>
               Sua última leitura
@@ -51,9 +59,13 @@ export default function Home({ UserAuthenticated = true }: Props) {
         )}
         <RecentlyReviewedBooks>
           <p>Avaliações mais recentes</p>
-          {/* <Avaliations AvaliatioWithoutBookContent={false} />
-          <Avaliations AvaliatioWithoutBookContent={false} />
-          <Avaliations AvaliatioWithoutBookContent={false} /> */}
+          {latestRatings?.map((rating) => (
+            <Avaliations
+              key={rating.book_id}
+              AvaliatioWithoutBookContent={false}
+              rating={rating}
+            />
+          ))}
         </RecentlyReviewedBooks>
       </LastBookReadAndAvaliationListContainer>
       <PopularBook>

@@ -333,6 +333,7 @@ export const CloseButtonOfAuthenticate = styled(Dialog.Close, {
   border: "none",
   marginLeft: "25rem",
   padding: "1rem 1rem 0 0",
+  background: "none",
   color: "#8D95AF",
 
   "&:hover": {
