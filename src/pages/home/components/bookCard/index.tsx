@@ -44,6 +44,8 @@ import { Book } from "@/pages/explorer/index.page";
 import { ChangeEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Avatar } from "../avatar";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/axios";
 
 interface Props {
   userAuthenticate?: boolean;
@@ -52,8 +54,29 @@ interface Props {
 
 export function BookCard({ book }: Props) {
   const [textAreaContent, setTextAreaContent] = useState<string>("");
+  const [starsFilled, setStarsFilled] = useState<number>(-1);
+
   const session = useSession();
   const userAuthenticated = session.data?.user;
+
+  const { mutateAsync: handleHate } = useMutation(async () => {
+    await api.post(`/ratings/userRating?bookId=${book.id}`, {
+      description: textAreaContent,
+      rate: starsFilled,
+    });
+  });
+
+  function handleItemClick(index: number) {
+    setStarsFilled(index);
+    console.log(session);
+  }
+
+  async function handleSubmitRating() {
+    if (starsFilled > 1) {
+      await handleHate();
+      console.log("oi");
+    }
+  }
 
   function handleInputChange(event: ChangeEvent<HTMLTextAreaElement>) {
     const TextAreaContentOnEvent = event.target.value;
@@ -134,7 +157,10 @@ export function BookCard({ book }: Props) {
                       <Avatar ImageUrl={userAuthenticated.image as string} />
                       <h2>{userAuthenticated.name}</h2>
                     </UserInfo>
-                    <StarsAvaliations />
+                    <StarsAvaliations
+                      handleItemClick={handleItemClick}
+                      starsFilled={starsFilled}
+                    />
                   </StarsAvaliationAndUserInfo>
                   <TextAreaDiv>
                     <AvaliationText
@@ -146,10 +172,14 @@ export function BookCard({ book }: Props) {
                     <span>{`${textAreaContent.length}/450`}</span>
                   </TextAreaDiv>
                   <AvaliationTextButtons>
-                    <CloseAvaliationTextButton>
+                    <CloseAvaliationTextButton
+                      onClick={() => setTextAreaContent("")}
+                    >
                       <X size={24} />
                     </CloseAvaliationTextButton>
-                    <SendAvaliationTextButton type="submit">
+                    <SendAvaliationTextButton
+                      onClick={() => handleSubmitRating()}
+                    >
                       <Check size={24} />
                     </SendAvaliationTextButton>
                   </AvaliationTextButtons>

@@ -19,10 +19,12 @@ import { api } from "@/lib/axios";
 import { BookCard } from "./components/bookCard";
 import { useSession } from "next-auth/react";
 import { Avaliations } from "./components/avaliations";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const session = useSession();
   const userAuthenticated = session.data?.user;
+  const route = useRouter();
   const { data: popularBooks } = useQuery<Book[]>(
     ["popular-books"],
     async () => {
@@ -71,7 +73,7 @@ export default function Home() {
       <PopularBook>
         <PopularBookAndSeeAllBooks>
           <p>Livros populares</p>
-          <span>
+          <span onClick={() => route.push("/explorer")}>
             Ver todos <CaretRight />
           </span>
         </PopularBookAndSeeAllBooks>

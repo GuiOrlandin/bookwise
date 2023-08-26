@@ -4,19 +4,19 @@ import { useState } from "react";
 
 interface Props {
   avgRating?: number;
+  starsFilled?: number;
+  handleItemClick?: (index: number) => void;
 }
 
-export function StarsAvaliations({ avgRating }: Props) {
-  const [starsFilled, setStarsFilled] = useState<number>(-1);
+export function StarsAvaliations({
+  avgRating,
+  handleItemClick,
+  starsFilled,
+}: Props) {
   const [previewValue, setPreviewValue] = useState<number>();
   const stars: number[] = [...(new Array(5).keys() as any)];
   const isEditable = avgRating != undefined ? false : true;
   const ratinValue = isEditable ? previewValue : avgRating;
-
-  function handleItemClick(index: number) {
-    setStarsFilled(index);
-    console.log(avgRating);
-  }
 
   function handleMouseEnter(value: number) {
     if (isEditable) {
@@ -29,11 +29,11 @@ export function StarsAvaliations({ avgRating }: Props) {
   return (
     <Stars>
       {stars.map((index) => (
-        <div onClick={() => handleItemClick(index)} key={index}>
+        <div onClick={() => handleItemClick?.(index)} key={index}>
           <Star
             weight={index <= ratinValue! ? "fill" : undefined}
             onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={() => handleMouseEnter(starsFilled)}
+            onMouseLeave={() => handleMouseEnter(starsFilled as number)}
           />
         </div>
       ))}

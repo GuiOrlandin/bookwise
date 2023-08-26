@@ -57,12 +57,17 @@ export function Avaliations({ AvaliatioWithoutBookContent, rating }: Props) {
             <StarsAvaliations avgRating={rating.rate - 1} />
           </AvatarAndStars>
           <BookAvaliationContainer>
-            <Image src={hobit} width={108} height={152} alt=""></Image>
+            <Image
+              src={`/${rating.book?.cover_url}`}
+              width={108}
+              height={152}
+              alt=""
+            ></Image>
             <AvaliationContent>
               <h2>{rating.book?.name}</h2>
               <p>{rating.book?.author}</p>{" "}
               <BookAvaliationText>
-                {rating.book?.summary}
+                {rating.description}
                 <span>... ver mais</span>
               </BookAvaliationText>
             </AvaliationContent>

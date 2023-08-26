@@ -94,7 +94,7 @@ export const BookInfoAndAvaliationContainer = styled("div", {
 export const NameAndAuthorModal = styled("div", {
   display: "flex",
   flexDirection: "column",
-  // marginLeft: "1.25rem",
+  marginLeft: "1.25rem",
 
   h1: {
     fontSize: "1.125rem",

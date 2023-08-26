@@ -62,6 +62,12 @@ export const PopularBookAndSeeAllBooks = styled("div", {
 
   justifyContent: "space-between",
   marginBottom: "1rem",
+
+  span: {
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
 });
 
 export const LastReadingsContainer = styled("div", {
@@ -78,7 +84,6 @@ export const LastReadingsTextAndSeAllButtonContainer = styled("div", {
   justifyContent: "space-between",
   color: "#F8F9FC",
   fontSize: "0.875rem",
-  marginRight: "4rem",
 
   button: {
     display: "flex",
