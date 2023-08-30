@@ -2,15 +2,17 @@ import { AvatarContainer, AvatarImage } from "./styles";
 
 export interface Props {
   ImageUrl: string;
+  width?: number;
+  height?: number;
 }
 
-export function Avatar({ ImageUrl }: Props) {
+export function Avatar({ ImageUrl, height = 40, width = 40 }: Props) {
   return (
     <AvatarContainer>
       <AvatarImage
         src={ImageUrl}
-        width={40}
-        height={40}
+        width={width}
+        height={height}
         quality={100}
         alt=""
       ></AvatarImage>

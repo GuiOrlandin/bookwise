@@ -56,6 +56,15 @@ export const NameAndDate = styled("div", {
 export const BookAvaliationContainer = styled("div", {
   display: "flex",
   marginTop: "1.25rem",
+
+  span: {
+    color: "#8381D9",
+
+    "&:hover": {
+      cursor: "pointer",
+      color: "#2A2879",
+    },
+  },
 });
 
 export const AvaliationContent = styled("div", {
@@ -69,21 +78,35 @@ export const AvaliationContent = styled("div", {
     lineHeight: "1.4rem",
     color: "#8D95AF",
   },
+
+  div: {
+    display: "flex",
+  },
 });
 
 export const BookAvaliationText = styled("p", {
   fontWeight: "700",
   color: "#D1D6E4",
-
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  display: "-webkit-box",
+  WebkitLineClamp: 3,
+  lineClamp: 3,
+  WebkitBoxOrient: "vertical",
   marginTop: "1.25rem",
 
-  span: {
-    color: "#8381D9",
-
-    "&:hover": {
-      cursor: "pointer",
-      color: "#2A2879",
+  variants: {
+    IsClicked: {
+      true: {
+        overflow: "visible",
+        textOverflow: "ellipsis",
+        display: "flex",
+      },
     },
+  },
+
+  span: {
+    marginLeft: "0.25rem",
   },
 });
 

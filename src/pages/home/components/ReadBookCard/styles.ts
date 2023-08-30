@@ -16,7 +16,7 @@ export const ReadBookCardContainer = styled("div", {
 
 export const ReadBookCardContainerProfile = styled("div", {
   padding: "1.25rem 1.5rem",
-  background: "#252D4A",
+  background: "#181C2A",
   borderRadius: "8px",
   marginTop: "0.5rem",
 
@@ -82,7 +82,7 @@ export const BookNameAndAuthorProfile = styled("div", {
     display: "flex",
     color: "#8D95AF",
     fontSize: "0.875rem",
-    marginBottom: "6rem",
+    marginBottom: "4.6rem",
   },
 });
 

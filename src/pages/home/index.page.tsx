@@ -14,7 +14,7 @@ import {
 
 import { ReadBookCard } from "./components/ReadBookCard";
 import { useQuery } from "@tanstack/react-query";
-import { Book, Ratings } from "../explorer/index.page";
+import { Book, Profile, Ratings } from "../explorer/index.page";
 import { api } from "@/lib/axios";
 import { BookCard } from "./components/bookCard";
 import { useSession } from "next-auth/react";
@@ -40,6 +40,7 @@ export default function Home() {
       return data.ratings ?? [];
     }
   );
+
   return (
     <HomeContainer>
       <Sidebar pageSelected="home" />;

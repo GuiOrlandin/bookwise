@@ -21,12 +21,14 @@ interface FilteredBooks {
   categoryId: string;
 }
 
-export interface User {
+export interface Profile {
   id: string;
   name: string;
   email: string;
   avatar_url: string;
   created_at: string;
+  ratings?: Ratings[];
+  total_pages?: number;
 }
 
 export interface Category {
@@ -43,7 +45,7 @@ export interface Ratings {
   created_at: string;
   book_id: string;
   user_id: string;
-  user?: User;
+  user?: Profile;
   book?: Book;
 }
 export interface Book {

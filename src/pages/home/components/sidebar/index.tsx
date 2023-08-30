@@ -20,6 +20,7 @@ import avatarImage from "../../../../assets/avatarimg.svg";
 import { signOut, useSession } from "next-auth/react";
 import { sign } from "crypto";
 import { LoginAuthenticate } from "@/pages/login/components";
+import { Avatar } from "../avatar";
 
 interface Props {
   UserAuthenticated?: boolean;
@@ -74,7 +75,11 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
           </ProfileButton>
 
           <AvatarandUserName>
-            <Image src={avatarImage} quality={100} alt=""></Image>
+            <Avatar
+              ImageUrl={userLoged.avatar_url as string}
+              width={32}
+              height={32}
+            />
             <p>{name && name[0]}</p>
             <LogoutButton onClick={() => signOut()}>
               <SignOut size={20} />

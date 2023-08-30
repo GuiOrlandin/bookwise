@@ -14,35 +14,35 @@ import {
   TextAvaliation,
 } from "./styles";
 
+import { Ratings } from "@/pages/explorer/index.page";
+import { relativeDateFormatter } from "@/utils/formatter";
+
 interface Props {
   profile: boolean;
+  ratings?: Ratings | undefined;
 }
 
-export function ReadBookCard({ profile }: Props) {
+export function ReadBookCard({ profile, ratings }: Props) {
   return (
     <>
       {profile ? (
-        <BookContentAndDateContainerProfile>
-          <p>Hás 2 dias</p>
+        <BookContentAndDateContainerProfile key={ratings?.book_id}>
+          <p>{relativeDateFormatter(ratings?.created_at as string)}</p>
           <ReadBookCardContainerProfile>
             <ImageBookNameAndStarAvaliationContainer>
-              <Image src={Bookimage} alt=""></Image>
+              <Image
+                src={`/${ratings?.book?.cover_url}`}
+                width={98}
+                height={134}
+                alt=""
+              ></Image>
               <BookNameAndAuthorProfile>
-                <h2>Entendendo Algoritmos</h2>
-                <span>Aditya Bhargava</span>
-                <StarsAvaliations />
+                <h2>{ratings?.book?.name}</h2>
+                <span>{ratings?.book?.author}</span>
+                <StarsAvaliations avgRating={ratings?.rate} />
               </BookNameAndAuthorProfile>
             </ImageBookNameAndStarAvaliationContainer>
-            <TextAvaliation>
-              Tristique massa sed enim lacinia odio. Congue ut faucibus nunc
-              vitae non. Nam feugiat vel morbi viverra vitae mi. Vitae fringilla
-              ut et suspendisse enim suspendisse vitae. Leo non eget lacus
-              sollicitudin tristique pretium quam. Mollis et luctus amet sed
-              convallis varius massa sagittis. Proin sed proin at leo quis ac
-              sem. Nam donec accumsan curabitur amet tortor quam sit. Bibendum
-              enim sit dui lorem urna amet elit rhoncus ut. Aliquet euismod
-              vitae ut turpis. Aliquam amet integer pellentesque.
-            </TextAvaliation>
+            <TextAvaliation>{ratings?.description}</TextAvaliation>
           </ReadBookCardContainerProfile>
         </BookContentAndDateContainerProfile>
       ) : (

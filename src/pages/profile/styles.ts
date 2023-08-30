@@ -61,7 +61,7 @@ export const ProfileInfoContainer = styled("div", {
   display: "flex",
   width: "19.25rem",
   height: "33rem",
-  padding: "0 5rem",
+  padding: "0 3.5rem",
   marginTop: "8.625rem",
   marginRight: "6rem",
   flexDirection: "column",
@@ -76,7 +76,7 @@ export const ProfileInfoContainer = styled("div", {
 
   span: {
     display: "flex",
-    color: "#8D95AF",
+    color: "#D1D6E4",
   },
 });
 

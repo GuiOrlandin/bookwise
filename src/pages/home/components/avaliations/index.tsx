@@ -18,12 +18,20 @@ import { StarsAvaliations } from "../StarsAvaliations";
 import { Ratings } from "@/pages/explorer/index.page";
 import { relativeDateFormatter } from "@/utils/formatter";
 import { Avatar } from "../avatar";
+import { useState } from "react";
 interface Props {
   AvaliatioWithoutBookContent: boolean;
   rating: Ratings;
 }
 
 export function Avaliations({ AvaliatioWithoutBookContent, rating }: Props) {
+  const [seeMoreOrLess, setSeeMoreOrLess] = useState("ver mais");
+
+  function handleSeeMoreToggle() {
+    seeMoreOrLess === "ver mais"
+      ? setSeeMoreOrLess("ver menos")
+      : setSeeMoreOrLess("ver mais");
+  }
   return (
     <>
       {AvaliatioWithoutBookContent ? (
@@ -66,10 +74,12 @@ export function Avaliations({ AvaliatioWithoutBookContent, rating }: Props) {
             <AvaliationContent>
               <h2>{rating.book?.name}</h2>
               <p>{rating.book?.author}</p>{" "}
-              <BookAvaliationText>
+              <BookAvaliationText IsClicked={seeMoreOrLess === "ver menos"}>
                 {rating.description}
-                <span>... ver mais</span>
               </BookAvaliationText>
+              {rating.description.length >= 220 && (
+                <span onClick={handleSeeMoreToggle}>{seeMoreOrLess}</span>
+              )}
             </AvaliationContent>
           </BookAvaliationContainer>
         </AvaliationsContainer>

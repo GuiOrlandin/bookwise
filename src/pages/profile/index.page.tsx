@@ -24,8 +24,21 @@ import {
   SearchInput,
 } from "./styles";
 import { ReadBookCard } from "../home/components/ReadBookCard";
+import { useQuery } from "@tanstack/react-query";
+import { Profile } from "../../pages/explorer/index.page";
+import { api } from "@/lib/axios";
+import { relativeDateFormatter } from "@/utils/formatter";
+import { Avatar } from "../home/components/avatar";
+import { ratings } from "../../../prisma/constants/ratings";
 
 export default function Profile() {
+  const { data: profileInfo } = useQuery<Profile>(
+    ["profile-info"],
+    async () => {
+      const { data } = await api.get("/profile");
+      return data.ProfileWithPageRead ?? [];
+    }
+  );
   return (
     <ProfileContainer>
       <Sidebar pageSelected="profile" UserAuthenticated={true} />
@@ -41,33 +54,41 @@ export default function Profile() {
           </button>
         </SearchInput>
 
-        <ReadBookCard profile={true} />
+        {profileInfo?.ratings?.map((rating) => (
+          <ReadBookCard key={rating.book_id} profile={true} ratings={rating} />
+        ))}
       </ListOfReadsBooks>
       <ProfileInfoContainer>
-        <Image src={AvatarImg} alt=""></Image>
+        <Avatar
+          ImageUrl={`/${profileInfo?.avatar_url}`}
+          height={70}
+          width={70}
+        />
         <NameAndDateMember>
-          <h2>Cristofer Rosser</h2>
-          <span>membro desde 2019</span>
+          <h2>{profileInfo?.name}</h2>
+          <span>
+            {relativeDateFormatter(profileInfo?.created_at as string)}
+          </span>
         </NameAndDateMember>
         <ReadsBooksInfoContainer>
           <PagesReades>
             <BookOpen color="#50B2C0" size={32} />
             <div>
-              <p>853</p>
+              <p>{profileInfo?.total_pages}</p>
               <span>Páginas lidas</span>
             </div>
           </PagesReades>
           <BooksAvaliated>
             <Books color="#50B2C0" size={32} />
             <div>
-              <p>10</p>
+              <p>{profileInfo?.ratings?.length}</p>
               <span>Livros avaliados</span>
             </div>
           </BooksAvaliated>
           <AutorsReads>
             <UserList color="#50B2C0" size={32} />
             <div>
-              <p>8</p>
+              <p>{profileInfo?.ratings?.length}</p>
               <span>Autores lidos</span>
             </div>
           </AutorsReads>
