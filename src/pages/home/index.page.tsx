@@ -41,6 +41,14 @@ export default function Home() {
     }
   );
 
+  const { data: lastReadBook } = useQuery<Ratings>(
+    ["last-read-book"],
+    async () => {
+      const { data } = await api.get(`/profile?lastReadBook=${true}`);
+      return data.userLastReadBook ?? [];
+    }
+  );
+
   return (
     <HomeContainer>
       <Sidebar pageSelected="home" />;
@@ -57,7 +65,7 @@ export default function Home() {
                 Ver todas <CaretRight />
               </button>
             </LastReadingsTextAndSeAllButtonContainer>
-            <ReadBookCard profile={false} />
+            <ReadBookCard profile={false} ratings={lastReadBook} />
           </LastReadingsContainer>
         )}
         <RecentlyReviewedBooks>

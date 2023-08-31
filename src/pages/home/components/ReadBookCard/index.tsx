@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import Bookimage from "../../../../assets/Book.png";
 import { StarsAvaliations } from "../StarsAvaliations";
 import {
   BookContentAndDateContainer,
@@ -47,22 +46,23 @@ export function ReadBookCard({ profile, ratings }: Props) {
         </BookContentAndDateContainerProfile>
       ) : (
         <ReadBookCardContainer>
-          <Image src={Bookimage} alt=""></Image>
+          <Image
+            src={`/${ratings?.book?.cover_url}`}
+            width={98}
+            height={134}
+            alt=""
+          ></Image>
           <BookContentAndDateContainer>
             <StarsAndDateContainer>
-              <p>Hás 2 dias</p>
-              <StarsAvaliations />
+              <p>{relativeDateFormatter(ratings?.created_at as string)}</p>
+              <StarsAvaliations avgRating={ratings?.rate} />
             </StarsAndDateContainer>
 
             <BookNameAndAuthor>
-              <h2>Entendendo Algoritmos</h2>
-              <span>Aditya Bhargava</span>
+              <h2>{ratings?.book?.name}</h2>
+              <span>{ratings?.book?.author}</span>
             </BookNameAndAuthor>
-            <p>
-              Nec tempor nunc in egestas. Euismod nisi eleifend at et in
-              sagittis. Penatibus id vestibulum imperdiet a at imperdiet
-              lectu...
-            </p>
+            <p>{ratings?.description}</p>
           </BookContentAndDateContainer>
         </ReadBookCardContainer>
       )}

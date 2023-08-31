@@ -36,6 +36,9 @@ export const BookContentAndDateContainerProfile = styled("div", {
 });
 
 export const BookContentAndDateContainer = styled("div", {
+  display: "flex",
+  width: "100%",
+  flexDirection: "column",
   p: {
     color: "#D1D6E4",
     fontSize: "0.875rem",
@@ -53,6 +56,7 @@ export const ImageBookNameAndStarAvaliationContainer = styled("div", {
 
 export const StarsAndDateContainer = styled("div", {
   display: "flex",
+  width: "100%",
   justifyContent: "space-between",
   marginBottom: "0.75rem",
 });

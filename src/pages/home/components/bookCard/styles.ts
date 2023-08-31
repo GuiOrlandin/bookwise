@@ -356,7 +356,7 @@ export const AvaliationCommentContainer = styled("div", {
     position: "absolute",
     fontSize: "0.75rem",
     color: "#7C7C8A",
-    marginLeft: "29rem",
+    marginLeft: "30rem",
     marginTop: "8.7rem",
     zIndex: "2",
   },

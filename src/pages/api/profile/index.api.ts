@@ -23,7 +23,23 @@ export default async function handler(
 
   try {
     const userId = String(session?.user?.id);
-    const lastReadBook = String(req.headers.lastReadBook);
+    const lastReadBook = Boolean(req.query.lastReadBook);
+
+    if (lastReadBook === true) {
+      const userLastReadBook = await prisma.rating.findFirst({
+        where: {
+          user_id: userId,
+        },
+        include: {
+          book: true,
+        },
+        orderBy: {
+          created_at: "desc",
+        },
+      });
+
+      return res.json({ userLastReadBook });
+    }
 
     const UserAuthenticated = await prisma.user.findFirst({
       where: {
@@ -33,6 +49,9 @@ export default async function handler(
         ratings: {
           include: {
             book: true,
+          },
+          orderBy: {
+            created_at: "desc",
           },
         },
       },
