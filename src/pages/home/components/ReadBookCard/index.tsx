@@ -25,7 +25,7 @@ export function ReadBookCard({ profile, ratings }: Props) {
   return (
     <>
       {profile ? (
-        <BookContentAndDateContainerProfile key={ratings?.book_id}>
+        <BookContentAndDateContainerProfile>
           <p>{relativeDateFormatter(ratings?.created_at as string)}</p>
           <ReadBookCardContainerProfile>
             <ImageBookNameAndStarAvaliationContainer>

@@ -44,7 +44,9 @@ export default function Home() {
   const { data: lastReadBook } = useQuery<Ratings>(
     ["last-read-book"],
     async () => {
-      const { data } = await api.get(`/profile?lastReadBook=${true}`);
+      const { data } = await api.get(
+        `/profile/${userAuthenticated?.id}?lastReadBook=${true}`
+      );
       return data.userLastReadBook ?? [];
     }
   );

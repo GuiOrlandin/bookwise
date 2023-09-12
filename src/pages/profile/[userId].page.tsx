@@ -1,6 +1,5 @@
-import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
 
-import AvatarImg from "../../assets/avatarimg.svg";
 import {
   BookOpen,
   BookmarkSimple,
@@ -24,19 +23,31 @@ import {
   SearchInput,
 } from "./styles";
 import { ReadBookCard } from "../home/components/ReadBookCard";
-import { useQuery } from "@tanstack/react-query";
-import { Profile } from "../../pages/explorer/index.page";
-import { api } from "@/lib/axios";
-import { relativeDateFormatter } from "@/utils/formatter";
 import { Avatar } from "../home/components/avatar";
-import { ratings } from "../../../prisma/constants/ratings";
+
+import { api } from "@/lib/axios";
+
+import { Profile } from "../explorer/index.page";
+import { relativeDateFormatter } from "@/utils/formatter";
+import { useSession } from "next-auth/react";
+import { Router, useRouter } from "next/router";
 
 export default function Profile() {
+  const session = useSession();
+  const router = useRouter();
+  const userId = router.query.userId as string;
+
+  const userAuthenticated = session.data?.user;
   const { data: profileInfo } = useQuery<Profile>(
     ["profile-info"],
     async () => {
-      const { data } = await api.get("/profile");
-      return data.ProfileWithPageRead ?? [];
+      if (!userId) {
+        const { data } = await api.get(`/profile/${userAuthenticated?.id}`);
+        return data.ProfileWithPageRead ?? [];
+      } else {
+        const { data } = await api.get(`/profile/${userId}`);
+        return data.ProfileWithPageRead ?? [];
+      }
     }
   );
   return (

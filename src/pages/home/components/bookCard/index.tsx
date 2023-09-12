@@ -1,7 +1,6 @@
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import avatarImg from "../../../../assets/avatarimg.svg";
 import {
   AvaliationButtonContainer,
   AvaliationCommentContainer,
@@ -68,13 +67,11 @@ export function BookCard({ book }: Props) {
 
   function handleItemClick(index: number) {
     setStarsFilled(index);
-    console.log(session);
   }
 
   async function handleSubmitRating() {
     if (starsFilled > 1) {
       await handleHate();
-      console.log("oi");
     }
   }
 

@@ -1,7 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-import { buildNextAuthOptions } from "../auth/[...nextauth].api";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,19 +9,15 @@ export default async function handler(
     return res.status(405).end();
   }
 
-  const session = await getServerSession(
-    req,
-    res,
-    buildNextAuthOptions(req, res)
-  );
-
-  if (!session) {
-    return res.status(401).end;
-  }
-
   try {
-    const userId = String(session?.user?.id);
+    const userId = String(req.query.userId);
     const lastReadBook = Boolean(req.query.lastReadBook);
+
+    // const User = await prisma.user.findUniqueOrThrow({
+    //   where: {
+    //     id: userId,
+    //   },
+    // });
 
     if (lastReadBook === true) {
       const userLastReadBook = await prisma.rating.findFirst({
@@ -41,7 +35,7 @@ export default async function handler(
       return res.json({ userLastReadBook });
     }
 
-    const UserAuthenticated = await prisma.user.findFirst({
+    const UserValidated = await prisma.user.findFirst({
       where: {
         id: userId,
       },
@@ -60,7 +54,7 @@ export default async function handler(
     const profilePagesReads = await prisma.book.aggregate({
       where: {
         id: {
-          in: UserAuthenticated?.ratings.map((book) => book.book_id),
+          in: UserValidated?.ratings.map((book) => book.book_id),
         },
       },
       _sum: {
@@ -69,7 +63,7 @@ export default async function handler(
     });
 
     const ProfileWithPageRead = {
-      ...UserAuthenticated,
+      ...UserValidated,
       total_pages: profilePagesReads._sum.total_pages,
     };
 
