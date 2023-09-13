@@ -13,6 +13,8 @@ export const AvatarContainer = styled("div", {
     borderRadius: "999px",
   },
 });
+export const AvatarImageOnPerfil = styled(Image, {});
+
 export const AvatarImage = styled(Image, {
   "&:hover": {
     cursor: "pointer",

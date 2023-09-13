@@ -13,12 +13,6 @@ export default async function handler(
     const userId = String(req.query.userId);
     const lastReadBook = Boolean(req.query.lastReadBook);
 
-    // const User = await prisma.user.findUniqueOrThrow({
-    //   where: {
-    //     id: userId,
-    //   },
-    // });
-
     if (lastReadBook === true) {
       const userLastReadBook = await prisma.rating.findFirst({
         where: {

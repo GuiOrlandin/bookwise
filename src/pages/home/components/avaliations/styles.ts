@@ -128,6 +128,7 @@ export const AvatarAndStarsWithoutBookContent = styled("div", {
 
 export const AvaliationContentWithoutBookContent = styled("div", {
   fontWeight: "400",
+  height: "100%",
   color: "#D1D6E4",
 
   span: {

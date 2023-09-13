@@ -17,6 +17,7 @@ import {
   CategoryDescriptionContent,
   CategorysContainer,
   CloseAvaliationTextButton,
+  CloseButtonModal,
   CloseButtonOfAuthenticate,
   Content,
   ContentOfAuthenticate,
@@ -97,6 +98,9 @@ export function BookCard({ book }: Props) {
       <Portal>
         <Overlay />
         <Content>
+          <CloseButtonModal>
+            <X size={24} />
+          </CloseButtonModal>
           <CardContainer>
             <CardContent>
               <Image
@@ -112,7 +116,11 @@ export function BookCard({ book }: Props) {
                 </NameAndAuthorModal>
                 <StarsAndAvaliations>
                   <StarsAvaliations avgRating={book.avgRating! - 1} />
-                  <span>{book.ratings?.length} Avaliação</span>
+                  <span>
+                    {book?.ratings && book?.ratings?.length > 1
+                      ? `${book.ratings?.length} Avaliações`
+                      : `${book.ratings?.length} Avaliação`}
+                  </span>
                 </StarsAndAvaliations>
               </BookDescriptionsAndAvaliations>
             </CardContent>

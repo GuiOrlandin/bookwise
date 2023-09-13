@@ -39,9 +39,17 @@ export const BookContentAndDateContainer = styled("div", {
   display: "flex",
   width: "100%",
   flexDirection: "column",
+
   p: {
     color: "#D1D6E4",
     fontSize: "0.875rem",
+
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    lineClamp: 2,
+    WebkitBoxOrient: "vertical",
   },
 });
 

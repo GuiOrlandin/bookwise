@@ -71,9 +71,10 @@ export default function Profile() {
       </ListOfReadsBooks>
       <ProfileInfoContainer>
         <Avatar
-          ImageUrl={`/${profileInfo?.avatar_url}`}
+          ImageUrl={profileInfo?.avatar_url as string}
           height={70}
           width={70}
+          isPerfil={true}
         />
         <NameAndDateMember>
           <h2>{profileInfo?.name}</h2>

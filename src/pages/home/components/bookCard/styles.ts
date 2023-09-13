@@ -15,7 +15,10 @@ export const BookCardContainer = styled("div", {
 });
 
 export const Overlay = styled(Dialog.Overlay, {
-  background: "#8381D9",
+  backgroundColor: "rgba(0, 0, 0, 0.6)",
+  position: "fixed",
+  inset: 0,
+  animation: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
 });
 
 export const Trigger = styled(Dialog.Trigger, {
@@ -43,7 +46,7 @@ export const Content = styled(Dialog.Content, {
 export const CardContainer = styled("div", {
   display: "flex",
   flexDirection: "column",
-  margin: "3rem 4rem 2.5rem 2.5rem",
+  margin: "0 2.125rem 2.5rem 2.5rem",
   borderRadius: "8px",
   padding: "1.5rem 2rem 2.5rem 2rem",
 
@@ -326,6 +329,19 @@ export const TitleOfAuthenticate = styled(Dialog.Title, {
   color: "#E6E8F2",
   fontSize: "1rem",
   fontWeight: "700",
+});
+
+export const CloseButtonModal = styled(Dialog.Close, {
+  display: "flex",
+  border: "none",
+  margin: "1rem 1rem 1rem 36.75rem",
+  background: "none",
+  color: "#8D95AF",
+
+  "&:hover": {
+    cursor: "pointer",
+    color: "#F8F9FC",
+  },
 });
 
 export const CloseButtonOfAuthenticate = styled(Dialog.Close, {
