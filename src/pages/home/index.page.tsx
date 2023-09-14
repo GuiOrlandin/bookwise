@@ -63,7 +63,7 @@ export default function Home() {
           <LastReadingsContainer>
             <LastReadingsTextAndSeAllButtonContainer>
               Sua última leitura
-              <button>
+              <button onClick={() => route.push("/explorer")}>
                 Ver todas <CaretRight />
               </button>
             </LastReadingsTextAndSeAllButtonContainer>

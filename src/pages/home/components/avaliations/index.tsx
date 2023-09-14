@@ -57,7 +57,10 @@ export function Avaliations({ AvaliatioWithoutBookContent, rating }: Props) {
         <AvaliationsContainer>
           <AvatarAndStars>
             <UserInfo>
-              <Avatar ImageUrl={rating.user?.avatar_url as string} />
+              <Avatar
+                ImageUrl={rating.user?.avatar_url as string}
+                userId={rating.user?.id}
+              />
               <NameAndDate>
                 <h2>{rating.user?.name}</h2>
                 <p>{relativeDateFormatter(rating.created_at)}</p>

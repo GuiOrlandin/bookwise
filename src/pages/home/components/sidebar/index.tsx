@@ -21,6 +21,7 @@ import { signOut, useSession } from "next-auth/react";
 import { sign } from "crypto";
 import { LoginAuthenticate } from "@/pages/login/components";
 import { Avatar } from "../avatar";
+import { Overlay } from "../bookCard/styles";
 
 interface Props {
   UserAuthenticated?: boolean;
@@ -39,11 +40,6 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
   function HandleClick(component: string) {
     setComponentClicked(component);
     router.push(`/${component}`);
-  }
-
-  function testSignOut() {
-    console.log(session?.user);
-    signOut();
   }
 
   return (
@@ -68,7 +64,7 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
         <>
           <ProfileButton
             IsClicked={componentClicked === "profile"}
-            onClick={() => HandleClick("profile")}
+            onClick={() => HandleClick(`profile/${userLoged.id}`)}
           >
             <User size={24} />
             Perfil
@@ -79,6 +75,7 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
               ImageUrl={userLoged.avatar_url as string}
               width={32}
               height={32}
+              userId={userLoged.id}
             />
             <p>{name && name[0]}</p>
             <LogoutButton onClick={() => signOut()}>
@@ -88,6 +85,7 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
         </>
       ) : (
         <Dialog.Root>
+          <Overlay />
           <Dialog.Trigger asChild>
             <LoginButton>
               <p>Fazer login</p>

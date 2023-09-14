@@ -13,6 +13,23 @@ export const ProfileLogoAndTextDescriptionContainer = styled("div", {
   gap: "0.75rem",
 
   h1: {
+    display: "flex",
+    alignItems: "center",
+    color: "#F8F9FC",
+    fontSize: "1.5rem",
+  },
+});
+
+export const ProfileBackPageLogo = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  background: "#0E1116",
+  marginBottom: "2.5rem",
+  gap: "0.75rem",
+
+  h1: {
+    display: "flex",
+    alignItems: "center",
     color: "#F8F9FC",
     fontSize: "1.5rem",
   },
@@ -26,7 +43,11 @@ export const ListOfReadsBooks = styled("div", {
 
   h1: {
     color: "#F8F9FC",
-    fontSize: "1.5rem",
+    fontSize: "1rem",
+    gap: "0.75rem",
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
 });
 

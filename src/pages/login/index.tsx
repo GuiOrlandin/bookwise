@@ -3,11 +3,8 @@ import Image from "next/image";
 import previewImage from "../../assets/login-bookwise.svg";
 import { Container, ContainerTest, TextContainer } from "./styles";
 import { LoginAuthenticate } from "./components";
-import { useRouter } from "next/router";
 
 export default function Login() {
-  const router = useRouter();
-
   return (
     <Container>
       <Image

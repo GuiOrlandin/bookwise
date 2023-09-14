@@ -4,6 +4,7 @@ import {
   BookOpen,
   BookmarkSimple,
   Books,
+  CaretLeft,
   MagnifyingGlass,
   User,
   UserList,
@@ -16,6 +17,7 @@ import {
   ListOfReadsBooks,
   NameAndDateMember,
   PagesReades,
+  ProfileBackPageLogo,
   ProfileContainer,
   ProfileInfoContainer,
   ProfileLogoAndTextDescriptionContainer,
@@ -30,14 +32,16 @@ import { api } from "@/lib/axios";
 import { Profile } from "../explorer/index.page";
 import { relativeDateFormatter } from "@/utils/formatter";
 import { useSession } from "next-auth/react";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 export default function Profile() {
   const session = useSession();
   const router = useRouter();
   const userId = router.query.userId as string;
-
   const userAuthenticated = session.data?.user;
+
+  const isOwnProfile = userId === userAuthenticated?.id;
+
   const { data: profileInfo } = useQuery<Profile>(
     ["profile-info"],
     async () => {
@@ -54,10 +58,19 @@ export default function Profile() {
     <ProfileContainer>
       <Sidebar pageSelected="profile" UserAuthenticated={true} />
       <ListOfReadsBooks>
-        <ProfileLogoAndTextDescriptionContainer>
-          <User size={32} color="#50B2C0" />
-          <h1>Perfil</h1>
-        </ProfileLogoAndTextDescriptionContainer>
+        {!isOwnProfile ? (
+          <ProfileBackPageLogo>
+            <h1 onClick={() => router.back()}>
+              <CaretLeft />
+              Voltar
+            </h1>
+          </ProfileBackPageLogo>
+        ) : (
+          <ProfileLogoAndTextDescriptionContainer>
+            <User size={32} color="#50B2C0" />
+            <h1>Perfil</h1>
+          </ProfileLogoAndTextDescriptionContainer>
+        )}
         <SearchInput>
           <input type="text" placeholder="Buscar Livro Avaliado" />
           <button type="submit">
