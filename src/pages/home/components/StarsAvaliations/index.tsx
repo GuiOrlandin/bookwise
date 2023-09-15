@@ -21,8 +21,6 @@ export function StarsAvaliations({
   function handleMouseEnter(value: number) {
     if (isEditable) {
       setPreviewValue(value);
-      console.log(value);
-      console.log(isEditable);
     }
   }
 

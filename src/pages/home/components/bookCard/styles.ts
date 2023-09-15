@@ -39,8 +39,20 @@ export const Content = styled(Dialog.Content, {
 
   position: "fixed",
   top: "50%",
-  left: "32%",
+  right: 325,
   transform: "translate(50%, -50%)",
+
+  "&::-webkit-scrollbar": {
+    width: 6,
+  },
+
+  "&::-webkit-scrollbar-track": {
+    background: "$gray700",
+  },
+
+  "&::-webkit-scrollbar-thumb": {
+    background: "$gray600",
+  },
 });
 
 export const CardContainer = styled("div", {
@@ -253,8 +265,6 @@ export const UserInfo = styled("div", {
 export const AvaliationText = styled("textarea", {
   height: "10.25rem",
   width: "100%",
-  maxLength: "450",
-  zIndex: "1",
   background: "#0E1116",
   border: "1px solid #303F73",
   borderRadius: "8px",
@@ -262,6 +272,18 @@ export const AvaliationText = styled("textarea", {
   padding: "0.875rem 1.25rem",
   fontSize: "0.875rem",
   resize: "none",
+
+  "&::-webkit-scrollbar": {
+    width: 6,
+  },
+
+  "&::-webkit-scrollbar-track": {
+    background: "$gray700",
+  },
+
+  "&::-webkit-scrollbar-thumb": {
+    background: "$gray600",
+  },
 
   "&:focus": {
     outline: "none",
@@ -360,6 +382,12 @@ export const CloseButtonOfAuthenticate = styled(Dialog.Close, {
 
 export const TextAreaDiv = styled("div", {
   display: "flex",
+
+  span: {
+    display: "flex",
+    position: "fixed",
+    right: "4.5rem",
+  },
 });
 
 export const AvaliationCommentContainer = styled("div", {

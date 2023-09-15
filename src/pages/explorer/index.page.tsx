@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { BookCard } from "../home/components/bookCard";
 import { Sidebar } from "../home/components/sidebar";
 import {
@@ -13,7 +13,6 @@ import {
 } from "./styles";
 import { Binoculars, MagnifyingGlass } from "phosphor-react";
 import { api } from "@/lib/axios";
-import { cardBookContext } from "@/context/cardBookContext";
 import { useQuery } from "@tanstack/react-query";
 
 interface FilteredBooks {
@@ -62,54 +61,58 @@ export interface Book {
 }
 
 export default function Explorer() {
-  const { allBooks, genreList } = useContext(cardBookContext);
   const [activeGenre, setActiveGenre] = useState<string | null>(null);
   const [bookList, setBookList] = useState<Book[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [inputContent, setInputContent] = useState<string>("");
+
+  const { data: books } = useQuery<Book[]>(["list-books"], async () => {
+    const { data } = await api.get(`/books`);
+    return data.booksWithAvgRating ?? [];
+  });
+
+  const { data: genres } = useQuery<Book[]>(["list-categories"], async () => {
+    const { data } = await api.get("/books/categories");
+    return data.ListOfCategorys ?? [];
+  });
+
+  useEffect(() => {
+    setBookList(books!);
+  }, [books]);
 
   async function handleGetBooksByCategory(categoryId: string) {
     try {
       const newGenre = activeGenre === categoryId ? null : categoryId;
 
       setActiveGenre(newGenre);
-      console.log(activeGenre);
 
-      if (!newGenre) {
-        setBookList(allBooks);
+      if (!newGenre && books) {
+        setBookList(books);
 
         return;
       }
 
-      const books = await api.get(`/books?categoryId=${categoryId}`);
-      const filteredBooks = await books.data.filteredBooks.filter(
+      const booksOnCategory = await api.get(`/books?categoryId=${categoryId}`);
+      const filteredBooks = await booksOnCategory.data.filteredBooks.filter(
         (filteredBook: FilteredBooks) => filteredBook.categoryId === categoryId
       );
 
-      const filteredBooksList = allBooks.filter((book: Book) =>
+      const filteredBooksList = books?.filter((book: Book) =>
         filteredBooks.some((filteredBooks: FilteredBooks) => {
           return filteredBooks.book_id === book.id;
         })
       );
 
-      setBookList(filteredBooksList);
+      setBookList(filteredBooksList!);
     } catch (error) {
       console.error("List Books dont found!", error);
     }
   }
 
-  useEffect(() => {
-    if (allBooks.length > 0) {
-      setBookList(allBooks);
-      setLoading(false);
-    }
-  }, [allBooks]);
-
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     const inputContentOnEvent = event.target.value;
 
-    if (!inputContentOnEvent) {
-      return setBookList(allBooks);
+    if (!inputContentOnEvent && books) {
+      return setBookList(books);
     }
 
     setInputContent(inputContentOnEvent);
@@ -124,10 +127,6 @@ export default function Explorer() {
 
     setBookList(consultedBooks);
     setActiveGenre(null);
-  }
-
-  if (loading) {
-    return <h1>loading</h1>;
   }
 
   return (
@@ -152,7 +151,7 @@ export default function Explorer() {
           </SearchInput>
         </ExplorerIndicatorAndSearchBookAndAuthor>
         <ListOfGenresContainer>
-          {genreList.map((genre) => (
+          {genres?.map((genre) => (
             <ListOfGenres
               key={genre.name}
               IsClicked={genre.id === activeGenre}
@@ -163,7 +162,7 @@ export default function Explorer() {
           ))}
         </ListOfGenresContainer>
         <ListOfBookCards>
-          {bookList.map((book) => (
+          {bookList?.map((book) => (
             <BookCard key={book.name} book={book} />
           ))}
         </ListOfBookCards>

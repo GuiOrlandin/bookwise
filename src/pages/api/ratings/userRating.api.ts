@@ -34,9 +34,7 @@ export default async function handler(
     });
 
     if (useAlreadyRated) {
-      return res.status(400).json({
-        error: "You already rated this book",
-      });
+      return res.status(400).json({ error: "You already rated this book" });
     }
 
     await prisma.rating.create({
@@ -47,9 +45,10 @@ export default async function handler(
         description: description,
       },
     });
-    return res.status(201).end();
   } catch (error) {
     console.error(error);
     return res.status(400).end();
   }
+
+  return res.status(201).end();
 }

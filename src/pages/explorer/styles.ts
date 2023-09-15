@@ -2,7 +2,7 @@ import { styled } from "@stitches/react";
 
 export const ExplorerContainer = styled("div", {
   display: "flex",
-  width: "100vw",
+  width: "100%",
   background: "#0E1116",
 });
 

@@ -44,7 +44,7 @@ import { Book } from "@/pages/explorer/index.page";
 import { ChangeEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Avatar } from "../avatar";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
 
 interface Props {
@@ -58,13 +58,22 @@ export function BookCard({ book }: Props) {
 
   const session = useSession();
   const userAuthenticated = session.data?.user;
+  const queryClient = useQueryClient();
 
-  const { mutateAsync: handleHate } = useMutation(async () => {
-    await api.post(`/ratings/userRating?bookId=${book.id}`, {
-      description: textAreaContent,
-      rate: starsFilled,
-    });
-  });
+  const { mutateAsync: handleHate } = useMutation(
+    async () => {
+      await api.post(`/ratings/userRating?bookId=${book.id}`, {
+        description: textAreaContent,
+        rate: starsFilled,
+      });
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries(["latest-ratings"]);
+        queryClient.invalidateQueries(["popular-books"]);
+      },
+    }
+  );
 
   function handleItemClick(index: number) {
     setStarsFilled(index);

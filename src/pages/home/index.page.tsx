@@ -41,7 +41,7 @@ export default function Home() {
     }
   );
 
-  const { data: lastReadBook } = useQuery<Ratings>(
+  const { data: lastReadBook, isLoading } = useQuery<Ratings>(
     ["last-read-book"],
     async () => {
       const { data } = await api.get(
@@ -50,6 +50,10 @@ export default function Home() {
       return data.userLastReadBook ?? [];
     }
   );
+
+  if (isLoading) {
+    return <h1>loading</h1>;
+  }
 
   return (
     <HomeContainer>

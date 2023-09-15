@@ -16,9 +16,7 @@ import {
 } from "./styles";
 import * as Dialog from "@radix-ui/react-dialog";
 import bookWise from "../../../../assets/bookwise-logo.svg";
-import avatarImage from "../../../../assets/avatarimg.svg";
 import { signOut, useSession } from "next-auth/react";
-import { sign } from "crypto";
 import { LoginAuthenticate } from "@/pages/login/components";
 import { Avatar } from "../avatar";
 import { Overlay } from "../bookCard/styles";
@@ -34,7 +32,6 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
   const { data: session } = useSession();
   const userLoged = session?.user;
   const name = userLoged?.name.split(" ");
-  console.log(name);
   const router = useRouter();
 
   function HandleClick(component: string) {
