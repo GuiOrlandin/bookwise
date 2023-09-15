@@ -71,6 +71,7 @@ export function BookCard({ book }: Props) {
       onSuccess() {
         queryClient.invalidateQueries(["latest-ratings"]);
         queryClient.invalidateQueries(["popular-books"]);
+        queryClient.invalidateQueries(["list-books"]);
       },
     }
   );
