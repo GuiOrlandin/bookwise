@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { CaretRight, ChartLineUp } from "phosphor-react";
 import { Sidebar } from "./components/sidebar";
 import {
@@ -14,17 +15,31 @@ import {
 
 import { ReadBookCard } from "./components/ReadBookCard";
 import { useQuery } from "@tanstack/react-query";
-import { Book, Profile, Ratings } from "../explorer/index.page";
+import { Book, Ratings } from "../explorer/index.page";
 import { api } from "@/lib/axios";
 import { BookCard } from "./components/bookCard";
 import { useSession } from "next-auth/react";
 import { Avaliations } from "./components/avaliations";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const session = useSession();
   const userAuthenticated = session.data?.user;
+  const [isLoading, setIsLoading] = useState(true);
   const route = useRouter();
+
+  const { data: lastReadBook } = useQuery<Ratings>(
+    ["last-read-book"],
+    async () => {
+      const { data } = await api.get(
+        `/profile/${userAuthenticated?.id}?lastReadBook=${true}`
+      );
+      return data.userLastReadBook ?? [];
+    },
+    { enabled: !!userAuthenticated }
+  );
+
   const { data: popularBooks } = useQuery<Book[]>(
     ["popular-books"],
     async () => {
@@ -41,18 +56,14 @@ export default function Home() {
     }
   );
 
-  const { data: lastReadBook, isLoading } = useQuery<Ratings>(
-    ["last-read-book"],
-    async () => {
-      const { data } = await api.get(
-        `/profile/${userAuthenticated?.id}?lastReadBook=${true}`
-      );
-      return data.userLastReadBook ?? [];
+  useEffect(() => {
+    if (lastReadBook) {
+      return setIsLoading(false);
     }
-  );
+  }, [lastReadBook]);
 
   if (isLoading) {
-    return <h1>loading</h1>;
+    return <h1>loading...</h1>;
   }
 
   return (
@@ -67,7 +78,9 @@ export default function Home() {
           <LastReadingsContainer>
             <LastReadingsTextAndSeAllButtonContainer>
               Sua última leitura
-              <button onClick={() => route.push("/explorer")}>
+              <button
+                onClick={() => route.push(`/profile/${userAuthenticated?.id}`)}
+              >
                 Ver todas <CaretRight />
               </button>
             </LastReadingsTextAndSeAllButtonContainer>

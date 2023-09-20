@@ -1,4 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState, ChangeEvent, useEffect } from "react";
+import { api } from "@/lib/axios";
+
+import { Sidebar } from "../home/components/sidebar";
+import { Avatar } from "../home/components/avatar";
+import { ReadBookCard } from "../home/components/ReadBookCard";
+import { Profile, Ratings } from "../explorer/index.page";
+
+import { relativeDateFormatter } from "@/utils/formatter";
 
 import {
   BookOpen,
@@ -9,7 +20,6 @@ import {
   User,
   UserList,
 } from "phosphor-react";
-import { Sidebar } from "../home/components/sidebar";
 import {
   AutorsReads,
   BooksAvaliated,
@@ -24,36 +34,55 @@ import {
   ReadsBooksInfoContainer,
   SearchInput,
 } from "./styles";
-import { ReadBookCard } from "../home/components/ReadBookCard";
-import { Avatar } from "../home/components/avatar";
-
-import { api } from "@/lib/axios";
-
-import { Profile } from "../explorer/index.page";
-import { relativeDateFormatter } from "@/utils/formatter";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 export default function Profile() {
-  const session = useSession();
   const router = useRouter();
-  const userId = router.query.userId as string;
+  const userId = router.query.id as string;
+  const session = useSession();
   const userAuthenticated = session.data?.user;
+
+  const [inputContent, setInputContent] = useState<string>("");
+  const [listOfRatings, setListOfRatings] = useState<Ratings[]>();
 
   const isOwnProfile = userId === userAuthenticated?.id;
 
-  const { data: profileInfo } = useQuery<Profile>(
+  const { data: profileInfo, isLoading } = useQuery<Profile>(
     ["profile-info"],
     async () => {
-      if (!userId) {
-        const { data } = await api.get(`/profile/${userAuthenticated?.id}`);
-        return data.ProfileWithPageRead ?? [];
-      } else {
-        const { data } = await api.get(`/profile/${userId}`);
-        return data.ProfileWithPageRead ?? [];
-      }
+      const { data } = await api.get(`/profile/${userId}`);
+      return data.ProfileWithPageRead ?? [];
+    },
+    {
+      enabled: !!userId,
     }
   );
+
+  useEffect(() => {
+    setListOfRatings(profileInfo?.ratings);
+    console.log(profileInfo);
+  }, [profileInfo]);
+
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    const inputContentOnEvent = event.target.value;
+
+    if (!inputContentOnEvent && listOfRatings) {
+      return setListOfRatings(profileInfo?.ratings);
+    }
+    setInputContent(inputContentOnEvent);
+  }
+
+  function handleInputQuery() {
+    const rateddBooks = listOfRatings?.filter((rating) =>
+      rating.book?.name.toLowerCase().includes(inputContent.toLowerCase())
+    );
+
+    setListOfRatings(rateddBooks);
+  }
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <ProfileContainer>
       <Sidebar pageSelected="profile" UserAuthenticated={true} />
@@ -72,13 +101,17 @@ export default function Profile() {
           </ProfileLogoAndTextDescriptionContainer>
         )}
         <SearchInput>
-          <input type="text" placeholder="Buscar Livro Avaliado" />
-          <button type="submit">
+          <input
+            type="text"
+            placeholder="Buscar Livro Avaliado"
+            onChange={handleInputChange}
+          />
+          <button type="button" onClick={handleInputQuery}>
             <MagnifyingGlass size={20} color="#303F73" />
           </button>
         </SearchInput>
 
-        {profileInfo?.ratings?.map((rating) => (
+        {listOfRatings?.map((rating) => (
           <ReadBookCard key={rating.book_id} profile={true} ratings={rating} />
         ))}
       </ListOfReadsBooks>

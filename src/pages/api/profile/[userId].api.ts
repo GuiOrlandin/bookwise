@@ -9,61 +9,72 @@ export default async function handler(
     return res.status(405).end();
   }
 
-  try {
-    const userId = String(req.query.userId);
-    const lastReadBook = Boolean(req.query.lastReadBook);
+  const lastReadBook = Boolean(req.query.lastReadBook);
+  const userId = String(req.query.userId);
 
-    if (lastReadBook === true) {
-      const userLastReadBook = await prisma.rating.findFirst({
-        where: {
-          user_id: userId,
-        },
+  const UserValidated = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      ratings: {
         include: {
-          book: true,
+          book: {
+            include: {
+              categories: {
+                include: {
+                  category: true,
+                },
+              },
+            },
+          },
         },
         orderBy: {
           created_at: "desc",
         },
-      });
+      },
+    },
+  });
 
-      return res.json({ userLastReadBook });
-    }
-
-    const UserValidated = await prisma.user.findFirst({
+  if (lastReadBook === true) {
+    const userLastReadBook = await prisma.rating.findFirst({
       where: {
-        id: userId,
+        user_id: userId,
       },
       include: {
-        ratings: {
-          include: {
-            book: true,
-          },
-          orderBy: {
-            created_at: "desc",
-          },
-        },
+        book: true,
+      },
+      orderBy: {
+        created_at: "desc",
       },
     });
 
-    const profilePagesReads = await prisma.book.aggregate({
-      where: {
-        id: {
-          in: UserValidated?.ratings.map((book) => book.book_id),
-        },
-      },
-      _sum: {
-        total_pages: true,
-      },
-    });
-
-    const ProfileWithPageRead = {
-      ...UserValidated,
-      total_pages: profilePagesReads._sum.total_pages,
-    };
-
-    return res.json({ ProfileWithPageRead });
-  } catch (error) {
-    console.error(error);
-    return res.status(400).end();
+    return res.json({ userLastReadBook });
   }
+
+  const profilePagesReads = await prisma.book.aggregate({
+    where: {
+      id: {
+        in: UserValidated?.ratings.map((book) => book.book_id),
+      },
+    },
+    _sum: {
+      total_pages: true,
+    },
+  });
+
+  // const categories = UserValidated?.ratings.map((rating) =>
+  //   rating.book.categories
+  //     .map((category) => category.category.name)
+  //     .reduce((acc, category, index, array) => {
+  //       return acc;
+  //     })
+  // );
+
+  const ProfileWithPageRead = {
+    ...UserValidated,
+    total_pages: profilePagesReads._sum.total_pages,
+  };
+
+  return res.json({ ProfileWithPageRead });
 }
