@@ -153,7 +153,7 @@ export default function Profile() {
           <CategoryMostRead>
             <BookmarkSimple color="#50B2C0" size={32} />
             <div>
-              <p>Computação</p>
+              <p>{profileInfo?.mostReadCategory}</p>
               <span>Categoria mais lida</span>
             </div>
           </CategoryMostRead>

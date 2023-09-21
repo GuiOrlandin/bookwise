@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getMostFrequentCategory } from "@/utils/getMostFrequentCategory";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -63,17 +64,25 @@ export default async function handler(
     },
   });
 
-  // const categories = UserValidated?.ratings.map((rating) =>
-  //   rating.book.categories
-  //     .map((category) => category.category.name)
-  //     .reduce((acc, category, index, array) => {
-  //       return acc;
-  //     })
-  // );
+  const categoriesName = UserValidated?.ratings.reduce<string[]>(
+    (acc, ratings) => {
+      ratings.book.categories.forEach((categories) => {
+        const categoryName = categories.category.name;
+        acc.push(categoryName);
+      });
+      return acc;
+    },
+    []
+  );
+
+  const mostReadCategory = categoriesName
+    ? getMostFrequentCategory(categoriesName)
+    : null;
 
   const ProfileWithPageRead = {
     ...UserValidated,
     total_pages: profilePagesReads._sum.total_pages,
+    mostReadCategory,
   };
 
   return res.json({ ProfileWithPageRead });

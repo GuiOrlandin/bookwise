@@ -27,6 +27,7 @@ import {
   PagesDescriptionContainer,
   PagesDescriptionContent,
   Portal,
+  ReadMark,
   SendAvaliationTextButton,
   StarsAndAvaliations,
   StarsAvaliationAndUserInfo,
@@ -40,11 +41,11 @@ import { StarsAvaliations } from "../StarsAvaliations";
 import { Avaliations } from "../avaliations";
 import { BookOpen, BookmarkSimple, Check, X } from "phosphor-react";
 import { LoginAuthenticate } from "@/pages/login/components";
-import { Book } from "@/pages/explorer/index.page";
+import { Book, Profile } from "@/pages/explorer/index.page";
 import { ChangeEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Avatar } from "../avatar";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
 
 interface Props {
@@ -76,6 +77,21 @@ export function BookCard({ book }: Props) {
     }
   );
 
+  const { data: profileInfo } = useQuery<Profile>(
+    ["profile-info"],
+    async () => {
+      const { data } = await api.get(`/profile/${userAuthenticated?.id}`);
+      return data.ProfileWithPageRead ?? [];
+    },
+    {
+      enabled: !!userAuthenticated,
+    }
+  );
+
+  const arrayOfBookId = profileInfo?.ratings?.map(
+    (ratings) => ratings.book?.id
+  );
+
   function handleItemClick(index: number) {
     setStarsFilled(index);
   }
@@ -91,10 +107,12 @@ export function BookCard({ book }: Props) {
 
     setTextAreaContent(TextAreaContentOnEvent);
   }
+
   return (
     <Dialog.Root>
       <Trigger asChild>
         <BookCardContainer>
+          {arrayOfBookId?.includes(book.id) && <ReadMark>LIDO</ReadMark>}
           <Image src={`/${book.cover_url}`} width={108} height={152} alt="" />
           <BookInfoAndAvaliationContainer>
             <NameAndAuthor>

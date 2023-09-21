@@ -28,6 +28,7 @@ export interface Profile {
   created_at: string;
   ratings?: Ratings[];
   total_pages?: number;
+  mostReadCategory?: string;
 }
 
 export interface Category {

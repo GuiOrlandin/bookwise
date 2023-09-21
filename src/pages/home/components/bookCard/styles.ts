@@ -7,11 +7,26 @@ export const BookCardContainer = styled("div", {
   borderRadius: "8px",
   width: "19.25rem",
   background: "#181C2A",
+  position: "relative",
+
   border: "2px solid transparent",
 
   "&:hover": {
     border: "2px solid #252D4A",
   },
+});
+
+export const ReadMark = styled("div", {
+  background: "#0A313C",
+  position: "absolute",
+  top: "-0.12rem",
+  right: "-0.12rem",
+  borderRadius: "0 8px 0 4px",
+  padding: "0.25rem 0.75rem",
+
+  fontSize: "0.75rem",
+  fontWeight: "bold",
+  color: "#50B2C0",
 });
 
 export const Overlay = styled(Dialog.Overlay, {
