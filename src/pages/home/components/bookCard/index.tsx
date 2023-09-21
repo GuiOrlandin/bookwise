@@ -51,9 +51,10 @@ import { api } from "@/lib/axios";
 interface Props {
   userAuthenticate?: boolean;
   book: Book;
+  explorer?: boolean;
 }
 
-export function BookCard({ book }: Props) {
+export function BookCard({ book, explorer }: Props) {
   const [textAreaContent, setTextAreaContent] = useState<string>("");
   const [starsFilled, setStarsFilled] = useState<number>(-1);
 
@@ -112,7 +113,9 @@ export function BookCard({ book }: Props) {
     <Dialog.Root>
       <Trigger asChild>
         <BookCardContainer>
-          {arrayOfBookId?.includes(book.id) && <ReadMark>LIDO</ReadMark>}
+          {arrayOfBookId?.includes(book.id) && explorer && (
+            <ReadMark>LIDO</ReadMark>
+          )}
           <Image src={`/${book.cover_url}`} width={108} height={152} alt="" />
           <BookInfoAndAvaliationContainer>
             <NameAndAuthor>

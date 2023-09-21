@@ -164,7 +164,7 @@ export default function Explorer() {
         </ListOfGenresContainer>
         <ListOfBookCards>
           {bookList?.map((book) => (
-            <BookCard key={book.name} book={book} />
+            <BookCard key={book.name} book={book} explorer={true} />
           ))}
         </ListOfBookCards>
       </ExplorerContent>
