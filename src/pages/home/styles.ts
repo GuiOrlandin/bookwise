@@ -4,6 +4,7 @@ export const HomeContainer = styled("div", {
   display: "flex",
   background: "#0E1116",
   height: "100%",
+  width: "100%",
 });
 
 export const HomeIndicator = styled("div", {

@@ -1,14 +1,10 @@
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 
 import { api } from "@/lib/axios";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 
 import { StarsAvaliations } from "../StarsAvaliations";
 import { Avaliations } from "../avaliations";
@@ -205,7 +201,10 @@ export function BookCard({ book, explorer }: Props) {
                 <AvaliationCommentContainer>
                   <StarsAvaliationAndUserInfo>
                     <UserInfo>
-                      <Avatar ImageUrl={userAuthenticated.image as string} />
+                      <Avatar
+                        ImageUrl={userAuthenticated.avatar_url as string}
+                        userId={userAuthenticated.id}
+                      />
                       <h2>{userAuthenticated.name}</h2>
                     </UserInfo>
                     <StarsAvaliations

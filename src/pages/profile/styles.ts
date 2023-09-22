@@ -105,6 +105,7 @@ export const NameAndDateMember = styled("div", {
   display: "flex",
   alignItems: "center",
   flexDirection: "column",
+  textAlign: "center",
   width: "12.6875rem",
 
   position: "relative",
