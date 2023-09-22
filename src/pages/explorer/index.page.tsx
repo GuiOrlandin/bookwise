@@ -1,6 +1,9 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import { NextSeo } from "next-seo";
+
 import { BookCard } from "../home/components/bookCard";
 import { Sidebar } from "../home/components/sidebar";
+
 import {
   ExplorerContainer,
   ExplorerContent,
@@ -131,43 +134,49 @@ export default function Explorer() {
   }
 
   return (
-    <ExplorerContainer>
-      <Sidebar pageSelected="explorer" />
-      <ExplorerContent>
-        <ExplorerIndicatorAndSearchBookAndAuthor>
-          <ExplorerIndicator>
-            <Binoculars size={32} color="#50B2C0" />
-            Explorar
-          </ExplorerIndicator>
+    <>
+      <NextSeo
+        title="Explorer | Bookwise"
+        description="Confira as avaliações e os livros disponiveis na pagina."
+      />
+      <ExplorerContainer>
+        <Sidebar pageSelected="explorer" />
+        <ExplorerContent>
+          <ExplorerIndicatorAndSearchBookAndAuthor>
+            <ExplorerIndicator>
+              <Binoculars size={32} color="#50B2C0" />
+              Explorar
+            </ExplorerIndicator>
 
-          <SearchInput>
-            <input
-              type="text"
-              placeholder="Buscar livro ou autor"
-              onChange={handleInputChange}
-            />
-            <button type="button" onClick={handleInputQuery}>
-              <MagnifyingGlass size={20} color="#303F73" />
-            </button>
-          </SearchInput>
-        </ExplorerIndicatorAndSearchBookAndAuthor>
-        <ListOfGenresContainer>
-          {genres?.map((genre) => (
-            <ListOfGenres
-              key={genre.name}
-              IsClicked={genre.id === activeGenre}
-              onClick={() => handleGetBooksByCategory(genre.id)}
-            >
-              {genre.name}
-            </ListOfGenres>
-          ))}
-        </ListOfGenresContainer>
-        <ListOfBookCards>
-          {bookList?.map((book) => (
-            <BookCard key={book.name} book={book} explorer={true} />
-          ))}
-        </ListOfBookCards>
-      </ExplorerContent>
-    </ExplorerContainer>
+            <SearchInput>
+              <input
+                type="text"
+                placeholder="Buscar livro ou autor"
+                onChange={handleInputChange}
+              />
+              <button type="button" onClick={handleInputQuery}>
+                <MagnifyingGlass size={20} color="#303F73" />
+              </button>
+            </SearchInput>
+          </ExplorerIndicatorAndSearchBookAndAuthor>
+          <ListOfGenresContainer>
+            {genres?.map((genre) => (
+              <ListOfGenres
+                key={genre.name}
+                IsClicked={genre.id === activeGenre}
+                onClick={() => handleGetBooksByCategory(genre.id)}
+              >
+                {genre.name}
+              </ListOfGenres>
+            ))}
+          </ListOfGenresContainer>
+          <ListOfBookCards>
+            {bookList?.map((book) => (
+              <BookCard key={book.name} book={book} explorer={true} />
+            ))}
+          </ListOfBookCards>
+        </ExplorerContent>
+      </ExplorerContainer>
+    </>
   );
 }

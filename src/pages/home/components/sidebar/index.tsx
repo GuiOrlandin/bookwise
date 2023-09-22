@@ -82,7 +82,6 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
         </>
       ) : (
         <Dialog.Root>
-          <Overlay />
           <Dialog.Trigger asChild>
             <LoginButton>
               <p>Fazer login</p>
@@ -90,6 +89,7 @@ export function Sidebar({ UserAuthenticated = false, pageSelected }: Props) {
             </LoginButton>
           </Dialog.Trigger>
           <Dialog.Portal>
+            <Overlay />
             <Content>
               <Title>Faça login para deixar sua avaliação</Title>
 

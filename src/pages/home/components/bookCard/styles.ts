@@ -1,5 +1,6 @@
 import { styled } from "@stitches/react";
 import * as Dialog from "@radix-ui/react-dialog";
+import { text } from "stream/consumers";
 
 export const BookCardContainer = styled("div", {
   display: "flex",
@@ -256,7 +257,6 @@ export const UserAvaliationContainer = styled("div", {
   },
 
   button: {
-    background: "none",
     border: "none",
     color: "#8381D9",
     fontSize: "1rem",
@@ -313,9 +313,22 @@ export const AvaliationText = styled("textarea", {
 
 export const AvaliationTextButtons = styled("div", {
   display: "flex",
-  justifyContent: "end",
   gap: "0.5rem",
   marginTop: "0.75rem",
+
+  button: {
+    display: "flex",
+    justifyContent: "end",
+    position: "relative",
+    left: "12.4rem",
+  },
+
+  text: {
+    display: "flex",
+    justifyContent: "start",
+    position: "absolute",
+    left: "4.5rem",
+  },
 });
 
 export const CloseAvaliationTextButton = styled("button", {
@@ -323,6 +336,7 @@ export const CloseAvaliationTextButton = styled("button", {
   padding: "0.5rem",
   background: "#252D4A",
   borderRadius: "8px",
+  marginLeft: "15.5rem",
 
   svg: {
     color: "#8381D9",
@@ -409,7 +423,6 @@ export const AvaliationCommentContainer = styled("div", {
   background: "#181C2A",
   padding: "1.5rem",
   borderRadius: "8px",
-  position: "relative",
 
   span: {
     position: "absolute",
@@ -419,4 +432,12 @@ export const AvaliationCommentContainer = styled("div", {
     marginTop: "8.7rem",
     zIndex: "2",
   },
+});
+
+export const ErrorText = styled("text", {
+  display: "flex",
+  color: "#DD3333",
+  textAlign: "left",
+
+  right: "10.1rem",
 });

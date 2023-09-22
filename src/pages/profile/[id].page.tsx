@@ -2,14 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState, ChangeEvent, useEffect } from "react";
+import { relativeDateFormatter } from "@/utils/formatter";
+
 import { api } from "@/lib/axios";
+import { NextSeo } from "next-seo";
 
 import { Sidebar } from "../home/components/sidebar";
 import { Avatar } from "../home/components/avatar";
 import { ReadBookCard } from "../home/components/ReadBookCard";
 import { Profile, Ratings } from "../explorer/index.page";
-
-import { relativeDateFormatter } from "@/utils/formatter";
 
 import {
   BookOpen,
@@ -59,7 +60,6 @@ export default function Profile() {
 
   useEffect(() => {
     setListOfRatings(profileInfo?.ratings);
-    console.log(profileInfo);
   }, [profileInfo]);
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -84,81 +84,91 @@ export default function Profile() {
   }
 
   return (
-    <ProfileContainer>
-      <Sidebar pageSelected="profile" UserAuthenticated={true} />
-      <ListOfReadsBooks>
-        {!isOwnProfile ? (
-          <ProfileBackPageLogo>
-            <h1 onClick={() => router.back()}>
-              <CaretLeft />
-              Voltar
-            </h1>
-          </ProfileBackPageLogo>
-        ) : (
-          <ProfileLogoAndTextDescriptionContainer>
-            <User size={32} color="#50B2C0" />
-            <h1>Perfil</h1>
-          </ProfileLogoAndTextDescriptionContainer>
-        )}
-        <SearchInput>
-          <input
-            type="text"
-            placeholder="Buscar Livro Avaliado"
-            onChange={handleInputChange}
-          />
-          <button type="button" onClick={handleInputQuery}>
-            <MagnifyingGlass size={20} color="#303F73" />
-          </button>
-        </SearchInput>
+    <>
+      <NextSeo
+        title={`${profileInfo?.name} | Bookwise`}
+        description={`Confira as avaliações e informações sobre ${profileInfo?.name} .`}
+      />
+      <ProfileContainer>
+        <Sidebar pageSelected="profile" UserAuthenticated={true} />
+        <ListOfReadsBooks>
+          {!isOwnProfile ? (
+            <ProfileBackPageLogo>
+              <h1 onClick={() => router.back()}>
+                <CaretLeft />
+                Voltar
+              </h1>
+            </ProfileBackPageLogo>
+          ) : (
+            <ProfileLogoAndTextDescriptionContainer>
+              <User size={32} color="#50B2C0" />
+              <h1>Perfil</h1>
+            </ProfileLogoAndTextDescriptionContainer>
+          )}
+          <SearchInput>
+            <input
+              type="text"
+              placeholder="Buscar Livro Avaliado"
+              onChange={handleInputChange}
+            />
+            <button type="button" onClick={handleInputQuery}>
+              <MagnifyingGlass size={20} color="#303F73" />
+            </button>
+          </SearchInput>
 
-        {listOfRatings?.map((rating) => (
-          <ReadBookCard key={rating.book_id} profile={true} ratings={rating} />
-        ))}
-      </ListOfReadsBooks>
-      <ProfileInfoContainer>
-        <Avatar
-          ImageUrl={profileInfo?.avatar_url as string}
-          height={70}
-          width={70}
-          isPerfil={true}
-        />
-        <NameAndDateMember>
-          <h2>{profileInfo?.name}</h2>
-          <span>
-            {relativeDateFormatter(profileInfo?.created_at as string)}
-          </span>
-        </NameAndDateMember>
-        <ReadsBooksInfoContainer>
-          <PagesReades>
-            <BookOpen color="#50B2C0" size={32} />
-            <div>
-              <p>{profileInfo?.total_pages}</p>
-              <span>Páginas lidas</span>
-            </div>
-          </PagesReades>
-          <BooksAvaliated>
-            <Books color="#50B2C0" size={32} />
-            <div>
-              <p>{profileInfo?.ratings?.length}</p>
-              <span>Livros avaliados</span>
-            </div>
-          </BooksAvaliated>
-          <AutorsReads>
-            <UserList color="#50B2C0" size={32} />
-            <div>
-              <p>{profileInfo?.ratings?.length}</p>
-              <span>Autores lidos</span>
-            </div>
-          </AutorsReads>
-          <CategoryMostRead>
-            <BookmarkSimple color="#50B2C0" size={32} />
-            <div>
-              <p>{profileInfo?.mostReadCategory}</p>
-              <span>Categoria mais lida</span>
-            </div>
-          </CategoryMostRead>
-        </ReadsBooksInfoContainer>
-      </ProfileInfoContainer>
-    </ProfileContainer>
+          {listOfRatings?.map((rating) => (
+            <ReadBookCard
+              key={rating.book_id}
+              profile={true}
+              ratings={rating}
+            />
+          ))}
+        </ListOfReadsBooks>
+        <ProfileInfoContainer>
+          <Avatar
+            ImageUrl={profileInfo?.avatar_url as string}
+            height={70}
+            width={70}
+            isPerfil={true}
+          />
+          <NameAndDateMember>
+            <h2>{profileInfo?.name}</h2>
+            <span>
+              {relativeDateFormatter(profileInfo?.created_at as string)}
+            </span>
+          </NameAndDateMember>
+          <ReadsBooksInfoContainer>
+            <PagesReades>
+              <BookOpen color="#50B2C0" size={32} />
+              <div>
+                <p>{profileInfo?.total_pages}</p>
+                <span>Páginas lidas</span>
+              </div>
+            </PagesReades>
+            <BooksAvaliated>
+              <Books color="#50B2C0" size={32} />
+              <div>
+                <p>{profileInfo?.ratings?.length}</p>
+                <span>Livros avaliados</span>
+              </div>
+            </BooksAvaliated>
+            <AutorsReads>
+              <UserList color="#50B2C0" size={32} />
+              <div>
+                <p>{profileInfo?.ratings?.length}</p>
+                <span>Autores lidos</span>
+              </div>
+            </AutorsReads>
+            <CategoryMostRead>
+              <BookmarkSimple color="#50B2C0" size={32} />
+              <div>
+                <p>{profileInfo?.mostReadCategory}</p>
+                <span>Categoria mais lida</span>
+              </div>
+            </CategoryMostRead>
+          </ReadsBooksInfoContainer>
+        </ProfileInfoContainer>
+      </ProfileContainer>
+    </>
   );
 }

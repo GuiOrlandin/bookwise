@@ -5,6 +5,7 @@ import { globalStyles } from "@/styles/global";
 import { queryClient } from "@/lib/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
+import { DefaultSeo } from "next-seo";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -17,8 +18,16 @@ export default function MyApp({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>
+        <DefaultSeo
+          openGraph={{
+            type: "website",
+            locale: "pt_BR",
+            url: "https://www.url.ie/",
+            siteName: "Bookwise",
+          }}
+        />
         <div>
           <style jsx global>{`
             html {
@@ -27,7 +36,7 @@ export default function MyApp({
           `}</style>
           <Component {...pageProps} />
         </div>
-      </QueryClientProvider>
-    </SessionProvider>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }

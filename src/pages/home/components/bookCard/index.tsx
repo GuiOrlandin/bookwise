@@ -1,6 +1,22 @@
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
+import { api } from "@/lib/axios";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+
+import { StarsAvaliations } from "../StarsAvaliations";
+import { Avaliations } from "../avaliations";
+import { Avatar } from "../avatar";
+import { LoginAuthenticate } from "@/pages/login/components";
+import { Book, Profile } from "@/pages/explorer/index.page";
+
+import { BookOpen, BookmarkSimple, Check, X } from "phosphor-react";
 import {
   AvaliationButtonContainer,
   AvaliationCommentContainer,
@@ -21,6 +37,7 @@ import {
   CloseButtonOfAuthenticate,
   Content,
   ContentOfAuthenticate,
+  ErrorText,
   NameAndAuthor,
   NameAndAuthorModal,
   Overlay,
@@ -37,16 +54,6 @@ import {
   UserAvaliationContainer,
   UserInfo,
 } from "./styles";
-import { StarsAvaliations } from "../StarsAvaliations";
-import { Avaliations } from "../avaliations";
-import { BookOpen, BookmarkSimple, Check, X } from "phosphor-react";
-import { LoginAuthenticate } from "@/pages/login/components";
-import { Book, Profile } from "@/pages/explorer/index.page";
-import { ChangeEvent, useState } from "react";
-import { useSession } from "next-auth/react";
-import { Avatar } from "../avatar";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { api } from "@/lib/axios";
 
 interface Props {
   userAuthenticate?: boolean;
@@ -57,12 +64,15 @@ interface Props {
 export function BookCard({ book, explorer }: Props) {
   const [textAreaContent, setTextAreaContent] = useState<string>("");
   const [starsFilled, setStarsFilled] = useState<number>(-1);
+  const [isUnvailable, setIsUnvailable] = useState<boolean>(true);
+  const [errorForSendingRate, setErrorForSendingRate] =
+    useState<boolean>(false);
 
   const session = useSession();
   const userAuthenticated = session.data?.user;
   const queryClient = useQueryClient();
 
-  const { mutateAsync: handleHate } = useMutation(
+  const { mutateAsync: handleHate, error } = useMutation(
     async () => {
       await api.post(`/ratings/userRating?bookId=${book.id}`, {
         description: textAreaContent,
@@ -78,6 +88,8 @@ export function BookCard({ book, explorer }: Props) {
     }
   );
 
+  const hasError = !!error;
+
   const { data: profileInfo } = useQuery<Profile>(
     ["profile-info"],
     async () => {
@@ -85,7 +97,7 @@ export function BookCard({ book, explorer }: Props) {
       return data.ProfileWithPageRead ?? [];
     },
     {
-      enabled: !!userAuthenticated,
+      enabled: !userAuthenticated,
     }
   );
 
@@ -98,9 +110,12 @@ export function BookCard({ book, explorer }: Props) {
   }
 
   async function handleSubmitRating() {
-    if (starsFilled > 1) {
-      await handleHate();
+    if (starsFilled < 0 || textAreaContent.length < 3) {
+      return setErrorForSendingRate(true);
     }
+    await handleHate();
+    setTextAreaContent("");
+    setErrorForSendingRate(false);
   }
 
   function handleInputChange(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -113,9 +128,9 @@ export function BookCard({ book, explorer }: Props) {
     <Dialog.Root>
       <Trigger asChild>
         <BookCardContainer>
-          {arrayOfBookId?.includes(book.id) && explorer && (
-            <ReadMark>LIDO</ReadMark>
-          )}
+          {arrayOfBookId?.includes(book.id) &&
+            explorer &&
+            userAuthenticated && <ReadMark>LIDO</ReadMark>}
           <Image src={`/${book.cover_url}`} width={108} height={152} alt="" />
           <BookInfoAndAvaliationContainer>
             <NameAndAuthor>
@@ -208,6 +223,15 @@ export function BookCard({ book, explorer }: Props) {
                     <span>{`${textAreaContent.length}/450`}</span>
                   </TextAreaDiv>
                   <AvaliationTextButtons>
+                    {errorForSendingRate && !hasError && (
+                      <ErrorText>
+                        O texto deve haver mais 3 caracteres e a avaliação de
+                        pelo menos uma estrela.
+                      </ErrorText>
+                    )}
+                    {hasError && (
+                      <ErrorText>Voce já avaliou este livro!</ErrorText>
+                    )}
                     <CloseAvaliationTextButton
                       onClick={() => setTextAreaContent("")}
                     >
