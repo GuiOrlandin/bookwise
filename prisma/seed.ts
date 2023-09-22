@@ -78,7 +78,8 @@ async function main() {
     ...categoriesSeed,
     ...booksSeed,
     ...usersSeed,
-    ...ratingsSeed,
+
+    // ...ratingsSeed,
   ]);
 }
 

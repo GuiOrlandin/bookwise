@@ -1,8 +1,8 @@
 -- CreateTable
 CREATE TABLE `users` (
     `id` VARCHAR(191) NOT NULL,
-    `name` VARCHAR(191) NOT NULL,
-    `avatar_url` VARCHAR(191) NULL,
+    `name` TEXT NOT NULL,
+    `avatar_url` TEXT NULL,
     `email` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
@@ -15,7 +15,7 @@ CREATE TABLE `books` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `author` VARCHAR(191) NOT NULL,
-    `summary` VARCHAR(191) NOT NULL,
+    `summary` VARCHAR(500) NOT NULL,
     `cover_url` VARCHAR(191) NOT NULL,
     `total_pages` INTEGER NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -46,7 +46,7 @@ CREATE TABLE `CategoriesOnBooks` (
 CREATE TABLE `ratings` (
     `id` VARCHAR(191) NOT NULL,
     `rate` INTEGER NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(500) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `book_id` VARCHAR(191) NOT NULL,
     `user_id` VARCHAR(191) NOT NULL,
