@@ -26,6 +26,7 @@ Bookwise, é um site de avaliação livros, que foi desenvolvido contando apenas
 
 ## 🎞 Demo
 
+<img src="src/assets/demo2.png">
 <img src="src/assets/demo1.png">
 
 ## 💻 Getting started
