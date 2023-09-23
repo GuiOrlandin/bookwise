@@ -1,4 +1,4 @@
-</div>
+ </div>
 
 ## ▶ Preview
 
@@ -6,7 +6,7 @@
 
 ## 📃 About
 
-Bookwise, é um site de avaliação livros, que foi desenvolvido contando apenas com o design do figma e algumas dicas do notion.O qual o usuário pode fazer login com Google ou Github e fazer sua avaliação dos livros, ver as avaliações de outras pessoas, e também conferir o seus perfis.
+Bookwise, é um site de avaliação livros, que foi desenvolvido contando apenas com o design do figma e algumas dicas do notion. O qual o usuário pode fazer login com Google ou Github e fazer suas avaliações dos livros, ver as avaliações de outras pessoas, e também conferir o seus perfis.
 
 ## 🎨 Layout
 
